@@ -1,0 +1,666 @@
+/* ============================================================
+   0. CSS CUSTOM PROPERTIES (design tokens)
+   ============================================================ */
+
+:root {
+  /* Brand colors — only these 5, no exceptions */
+  --ink:      #1A1A1A;
+  --slate:    #2C2C2C;
+  --concrete: #F5F5F5;
+  --paper:    #FFFFFF;
+  --rust:     #C95A0F;
+
+  /* Supporting grays (derived from brand, not extra colors) */
+  --muted:    #6B6B6B;
+
+  /* Typography */
+  --font-main: 'Archivo', Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Spacing */
+  --pad-v: 72px;
+  --pad-h: 48px;
+
+  /* Border — used everywhere, never type it manually */
+  --border: 1px solid var(--ink);
+
+  /* Transitions */
+  --transition: 200ms ease;
+}
+
+
+/* ============================================================
+   1. RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Offset anchor links so fixed header doesn't cover target sections */
+  scroll-padding-top: 72px;
+}
+
+body {
+  font-family: var(--font-main);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+
+/* ============================================================
+   2. TYPOGRAPHY UTILITIES
+   ============================================================ */
+
+/* Monospace label style — used for metadata, nav links, tags */
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* Section headings: "SERVICES", "ABOUT", etc. */
+.section-label {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Rust accent on emphasized hero text */
+em {
+  font-style: normal;
+  color: var(--rust);
+}
+
+
+/* ============================================================
+   3. HEADER & NAV
+   ============================================================ */
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--paper);
+  border-bottom: var(--border);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad-h);
+  height: 72px;
+}
+
+.nav-logo img {
+  height: 36px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-links a {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color var(--transition);
+}
+
+.nav-links a:hover {
+  color: var(--rust);
+}
+
+/* Language toggle button: EN / ES */
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.lang-toggle {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ink);
+  border: var(--border);
+  padding: 6px 12px;
+  line-height: 1;
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.lang-toggle:hover {
+  color: var(--rust);
+  border-color: var(--rust);
+}
+
+/* Hamburger button — 3 horizontal bars */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 2px;
+  background: var(--ink);
+  transition: transform var(--transition), opacity var(--transition);
+  transform-origin: center;
+}
+
+/* Mobile dropdown menu — hidden by default */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  border-top: var(--border);
+  background: var(--paper);
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 20px var(--pad-h);
+  border-bottom: var(--border);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color var(--transition);
+}
+
+.mobile-menu a:hover {
+  color: var(--rust);
+}
+
+/* JS adds .is-open to <header> when hamburger is clicked */
+.site-header.is-open .mobile-menu {
+  display: flex;
+}
+
+/* Animate hamburger into an X when menu is open */
+.site-header.is-open .nav-toggle span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.site-header.is-open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.site-header.is-open .nav-toggle span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+
+/* ============================================================
+   4. HERO
+   ============================================================ */
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  min-height: 100vh;
+  align-items: center;
+  border-bottom: var(--border);
+  /* Top padding accounts for the 72px fixed header */
+  padding: calc(72px + var(--pad-v)) var(--pad-h) var(--pad-v);
+}
+
+.hero-inner {
+  padding-right: 64px;
+}
+
+.hero-label {
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+.hero-heading {
+  font-weight: 900;
+  font-size: 84px;
+  line-height: 0.92;
+  letter-spacing: -2.5px;
+  margin-bottom: 32px;
+}
+
+.hero-sub {
+  max-width: 480px;
+  color: var(--slate);
+  margin-bottom: 48px;
+}
+
+/* CTA button — also used on the contact form */
+.btn-primary {
+  display: inline-block;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border: var(--border);
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.btn-primary:hover {
+  background: var(--rust);
+  border-color: var(--rust);
+}
+
+/* Right-column specification block */
+.hero-spec {
+  border-left: var(--border);
+  padding-left: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  align-self: stretch;
+  justify-content: flex-end;
+  padding-bottom: var(--pad-v);
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-top: var(--border);
+  padding: 20px 0;
+}
+
+.spec-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.spec-value {
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+}
+
+
+/* ============================================================
+   5. SERVICES
+   ============================================================ */
+
+.services {
+  padding: var(--pad-v) var(--pad-h);
+  border-bottom: var(--border);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: var(--border);
+  padding-bottom: 20px;
+  margin-bottom: 0;
+}
+
+.section-count {
+  color: var(--muted);
+}
+
+/* Flush 2×2 grid with 1px borders — no gap, borders do the separating */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  border-left: var(--border);
+  border-top: var(--border);
+}
+
+.service-card {
+  padding: 40px;
+  border-right: var(--border);
+  border-bottom: var(--border);
+}
+
+.card-num {
+  display: block;
+  color: var(--rust);
+  margin-bottom: 24px;
+}
+
+.card-title {
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.card-body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--slate);
+  margin-bottom: 24px;
+}
+
+.card-tag {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   6. ABOUT
+   ============================================================ */
+
+.about {
+  padding: var(--pad-v) var(--pad-h);
+  border-bottom: var(--border);
+  background: var(--concrete);
+}
+
+.about-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-top: 48px;
+}
+
+.about-lead {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+  margin-bottom: 24px;
+}
+
+.about-text p:not(.about-lead) {
+  color: var(--slate);
+}
+
+.about-pillars {
+  display: flex;
+  flex-direction: column;
+}
+
+.pillar {
+  border-top: var(--border);
+  padding: 24px 0;
+}
+
+.pillar:last-child {
+  border-bottom: var(--border);
+}
+
+.pillar-label {
+  display: block;
+  color: var(--rust);
+  margin-bottom: 10px;
+}
+
+.pillar p {
+  font-size: 14px;
+  color: var(--slate);
+}
+
+
+/* ============================================================
+   7. CONTACT & FORM
+   ============================================================ */
+
+.contact {
+  padding: var(--pad-v) var(--pad-h);
+  border-bottom: var(--border);
+}
+
+.contact .section-head {
+  margin-bottom: 48px;
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-info .about-lead {
+  font-size: 18px;
+}
+
+.contact-email {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--rust);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  transition: color var(--transition);
+}
+
+.contact-email:hover {
+  color: var(--ink);
+}
+
+/* Form layout */
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--border);
+  padding: 16px 0;
+}
+
+.form-group label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group textarea {
+  border: none;
+  outline: none;
+  font-family: var(--font-main);
+  font-size: 15px;
+  background: transparent;
+  color: var(--ink);
+  padding: 0;
+  resize: vertical;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #AAAAAA;
+}
+
+/* Rust bottom line on focus — brutalist, no rounded rings */
+.form-group input:focus,
+.form-group textarea:focus {
+  border-bottom: 2px solid var(--rust);
+}
+
+.form-group:last-of-type {
+  border-bottom: var(--border);
+}
+
+.contact-form .btn-primary {
+  align-self: flex-start;
+  margin-top: 24px;
+}
+
+.contact-form .btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form-success {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #1a6b1a;
+}
+
+.form-error {
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+
+
+/* ============================================================
+   8. FOOTER
+   ============================================================ */
+
+.site-footer {
+  background: var(--slate);
+  border-top: var(--border);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px var(--pad-h);
+  gap: 32px;
+}
+
+.footer-logo img {
+  height: 32px;
+  width: auto;
+}
+
+.footer-copy {
+  color: #9A9A9A;
+}
+
+
+/* ============================================================
+   9. RESPONSIVE (max-width: 900px)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  :root {
+    --pad-v: 48px;
+    --pad-h: 24px;
+  }
+
+  /* Show hamburger, hide desktop nav */
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  /* Hero: single column, smaller heading */
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding-top: calc(72px + 48px);
+  }
+
+  .hero-inner {
+    padding-right: 0;
+    margin-bottom: 48px;
+  }
+
+  .hero-heading {
+    font-size: 54px;
+    letter-spacing: -1.5px;
+  }
+
+  /* Spec block: horizontal row on mobile */
+  .hero-spec {
+    border-left: none;
+    border-top: var(--border);
+    padding-left: 0;
+    padding-top: 32px;
+    padding-bottom: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
+  .spec-item {
+    min-width: 48%;
+    padding: 16px 0;
+  }
+
+  /* Services: single column */
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* About: single column */
+  .about-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  /* Contact: single column — form below info */
+  .contact-inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  /* Footer: stack vertically */
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}

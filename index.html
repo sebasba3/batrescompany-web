@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Batres Company Limited — AI automation agency. We build intelligent systems that eliminate repetitive work and amplify human potential.">
+  <title>Batres Company Limited — AI Automation</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/batres-icon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700;800;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER / NAV
+  ============================================================ -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+
+      <a href="#hero" class="nav-logo" aria-label="Batres Company Limited — Home">
+        <img src="assets/batres-horizontal.svg"
+             alt="Batres Company Limited"
+             width="200" height="46">
+      </a>
+
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#services" data-i18n="nav-services">Services</a>
+        <a href="#about"    data-i18n="nav-about">About</a>
+        <a href="#contact"  data-i18n="nav-contact">Contact</a>
+      </nav>
+
+      <div class="header-controls">
+        <button class="lang-toggle" id="lang-toggle" aria-label="Switch language">ES</button>
+
+        <button class="nav-toggle"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+
+    <nav class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <a href="#services" data-i18n="nav-services">Services</a>
+      <a href="#about"    data-i18n="nav-about">About</a>
+      <a href="#contact"  data-i18n="nav-contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="hero" id="hero" aria-label="Introduction">
+      <div class="hero-inner">
+
+        <p class="label-mono hero-label" data-i18n="hero-label">AI Automation Agency &mdash; Est. 2024</p>
+
+        <h1 class="hero-heading" data-i18n="hero-heading">
+          Automate the<br><em>repetitive.</em><br>Amplify the<br>human.
+        </h1>
+
+        <p class="hero-sub" data-i18n="hero-sub">
+          Batres Company Limited builds AI-powered automation systems
+          that eliminate manual bottlenecks, reduce operational costs,
+          and free your team to focus on work that actually matters.
+        </p>
+
+        <a href="#contact" class="btn-primary" data-i18n="hero-cta">Start a Conversation</a>
+
+      </div>
+
+      <div class="hero-spec" aria-hidden="true">
+        <div class="spec-item">
+          <span class="spec-label" data-i18n="spec-label-1">Specialization</span>
+          <span class="spec-value" data-i18n="spec-value-1">AI Process Automation</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label" data-i18n="spec-label-2">Delivery</span>
+          <span class="spec-value" data-i18n="spec-value-2">Custom Systems</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label" data-i18n="spec-label-3">Model</span>
+          <span class="spec-value" data-i18n="spec-value-3">Agency / Consultancy</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label" data-i18n="spec-label-4">Location</span>
+          <span class="spec-value" data-i18n="spec-value-4">Global / Remote</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SERVICES
+    ============================================================ -->
+    <section class="services" id="services" aria-labelledby="services-heading">
+      <div class="section-head">
+        <h2 id="services-heading" class="section-label" data-i18n="section-services">Services</h2>
+        <span class="section-count label-mono" data-i18n="services-count">04 Offerings</span>
+      </div>
+
+      <div class="services-grid">
+
+        <article class="service-card">
+          <span class="card-num label-mono" aria-hidden="true">01</span>
+          <h3 class="card-title" data-i18n="s1-title">Workflow Automation</h3>
+          <p class="card-body"  data-i18n="s1-body">
+            We map your business processes end-to-end and replace
+            manual, repetitive steps with intelligent pipelines.
+            WhatsApp &rarr; Calendar, email &rarr; CRM, forms &rarr;
+            spreadsheets &mdash; any repetitive workflow, automated.
+          </p>
+          <span class="card-tag label-mono" data-i18n="s1-tag">Process &middot; Integration &middot; n8n</span>
+        </article>
+
+        <article class="service-card">
+          <span class="card-num label-mono" aria-hidden="true">02</span>
+          <h3 class="card-title" data-i18n="s2-title">Custom AI Agents</h3>
+          <p class="card-body"  data-i18n="s2-body">
+            Autonomous agents that handle customer inquiries, schedule
+            appointments, monitor systems, and make decisions &mdash;
+            operating 24/7 without human intervention, on your
+            existing infrastructure.
+          </p>
+          <span class="card-tag label-mono" data-i18n="s2-tag">Agents &middot; LLM &middot; APIs</span>
+        </article>
+
+        <article class="service-card">
+          <span class="card-num label-mono" aria-hidden="true">03</span>
+          <h3 class="card-title" data-i18n="s3-title">Systems Integration</h3>
+          <p class="card-body"  data-i18n="s3-body">
+            Connect your CRM, ERP, communication tools, and databases
+            into a unified, automated ecosystem &mdash; eliminating
+            data silos and redundant manual entry across your
+            entire operation.
+          </p>
+          <span class="card-tag label-mono" data-i18n="s3-tag">API &middot; Sync &middot; Ops</span>
+        </article>
+
+        <article class="service-card">
+          <span class="card-num label-mono" aria-hidden="true">04</span>
+          <h3 class="card-title" data-i18n="s4-title">AI Data Processing</h3>
+          <p class="card-body"  data-i18n="s4-body">
+            Transform unstructured data &mdash; documents, emails,
+            reports &mdash; into structured, actionable information
+            using large language models and custom extraction pipelines.
+          </p>
+          <span class="card-tag label-mono" data-i18n="s4-tag">LLM &middot; ETL &middot; Analysis</span>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ABOUT
+    ============================================================ -->
+    <section class="about" id="about" aria-labelledby="about-heading">
+      <div class="section-head">
+        <h2 id="about-heading" class="section-label" data-i18n="section-about">About</h2>
+        <span class="section-count label-mono" data-i18n="about-count">Who We Are</span>
+      </div>
+
+      <div class="about-inner">
+        <div class="about-text">
+          <p class="about-lead" data-i18n="about-lead">
+            We are a focused AI automation agency. Not a 200-person
+            consultancy with generic playbooks &mdash; a specialist
+            team that goes deep on your specific operational problems.
+          </p>
+          <p data-i18n="about-body">
+            Every engagement starts with a process audit: we identify
+            which tasks are costing you the most time and money, then
+            design and deliver automation that pays for itself within
+            months. We build on proven infrastructure &mdash; n8n,
+            Make, OpenAI, Anthropic, and custom APIs &mdash; and we
+            hand over systems you own and can run independently.
+          </p>
+        </div>
+
+        <div class="about-pillars">
+          <div class="pillar">
+            <span class="pillar-label label-mono" data-i18n="pillar1-label">01 &mdash; Precision</span>
+            <p data-i18n="pillar1-text">We solve specific problems, not vague &ldquo;digital transformation.&rdquo;</p>
+          </div>
+          <div class="pillar">
+            <span class="pillar-label label-mono" data-i18n="pillar2-label">02 &mdash; Ownership</span>
+            <p data-i18n="pillar2-text">You own the systems we build. No vendor lock-in.</p>
+          </div>
+          <div class="pillar">
+            <span class="pillar-label label-mono" data-i18n="pillar3-label">03 &mdash; Speed</span>
+            <p data-i18n="pillar3-text">First working prototype in days, not months.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONTACT
+    ============================================================ -->
+    <section class="contact" id="contact" aria-labelledby="contact-heading">
+      <div class="section-head">
+        <h2 id="contact-heading" class="section-label" data-i18n="section-contact">Contact</h2>
+        <span class="section-count label-mono" data-i18n="contact-count">Get In Touch</span>
+      </div>
+
+      <div class="contact-inner">
+        <div class="contact-info">
+          <p class="about-lead" data-i18n="contact-lead">
+            Ready to automate? Tell us about your biggest operational
+            challenge and we&rsquo;ll respond within one business day.
+          </p>
+          <a href="mailto:sebastian@batrescompany.tech" class="contact-email label-mono">
+            sebastian@batrescompany.tech
+          </a>
+        </div>
+
+        <form class="contact-form"
+              action="https://api.web3forms.com/submit"
+              method="POST"
+              id="contact-form"
+              novalidate>
+
+          <input type="hidden" name="access_key" value="def84074-a543-432f-95df-ce9ef80e1b54">
+          <input type="hidden" name="subject" value="New Inquiry — Batres Company Limited">
+          <input type="hidden" name="redirect" value="false">
+
+          <div class="form-group">
+            <label for="name" data-i18n="form-name-label">Full Name <span aria-hidden="true">*</span></label>
+            <input type="text"
+                   id="name"
+                   name="name"
+                   required
+                   autocomplete="name"
+                   data-i18n-ph="form-name-ph"
+                   placeholder="Jane Smith">
+          </div>
+
+          <div class="form-group">
+            <label for="email" data-i18n="form-email-label">Email Address <span aria-hidden="true">*</span></label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   required
+                   autocomplete="email"
+                   data-i18n-ph="form-email-ph"
+                   placeholder="jane@company.com">
+          </div>
+
+          <div class="form-group">
+            <label for="phone" data-i18n="form-phone-label">Phone (optional)</label>
+            <input type="tel"
+                   id="phone"
+                   name="phone"
+                   autocomplete="tel"
+                   data-i18n-ph="form-phone-ph"
+                   placeholder="+1 555 000 0000">
+          </div>
+
+          <div class="form-group">
+            <label for="message" data-i18n="form-message-label">Message <span aria-hidden="true">*</span></label>
+            <textarea id="message"
+                      name="message"
+                      required
+                      rows="5"
+                      data-i18n-ph="form-message-ph"
+                      placeholder="Describe your automation challenge..."></textarea>
+          </div>
+
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" aria-hidden="true">
+
+          <button type="submit" class="btn-primary" id="submit-btn" data-i18n="submit-btn">
+            Send Message
+          </button>
+
+          <p class="form-success" id="form-success" aria-live="polite" data-i18n="form-success" hidden>
+            Message sent. We will respond within one business day.
+          </p>
+          <p class="form-error" id="form-error" aria-live="polite" data-i18n="form-error" hidden>
+            Something went wrong. Please email us directly at sebastian@batrescompany.tech
+          </p>
+
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-inner">
+
+      <a href="#hero" class="footer-logo" aria-label="Batres Company Limited — Back to top">
+        <img src="assets/batres-horizontal-light.svg"
+             alt="Batres Company Limited"
+             width="180" height="42">
+      </a>
+
+      <p class="footer-copy label-mono" data-i18n="footer-copy">
+        &copy; 2024&ndash;2026 Batres Company Limited. All rights reserved.
+      </p>
+
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
