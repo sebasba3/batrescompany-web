@@ -350,18 +350,44 @@ em {
   color: var(--muted);
 }
 
-/* Flush 2×2 grid with 1px borders — no gap, borders do the separating */
+/* Single-column list — each card is full width */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   border-left: var(--border);
   border-top: var(--border);
 }
 
 .service-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 32px;
   padding: 40px;
   border-right: var(--border);
   border-bottom: var(--border);
+}
+
+.service-anim {
+  flex: 0 0 560px;
+  width: 560px;
+  min-height: 360px;
+  border: var(--border);
+  overflow: hidden;
+  background: var(--concrete);
+  display: flex;
+  align-items: center;
+}
+
+.service-anim svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.service-content {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .card-num {
@@ -588,6 +614,18 @@ em {
 
 
 /* ============================================================
+   9a. RESPONSIVE (max-width: 1200px — shrink animation at tablet range)
+   ============================================================ */
+
+@media (max-width: 1200px) {
+  .service-anim {
+    flex: 0 0 400px;
+    width: 400px;
+    min-height: 260px;
+  }
+}
+
+/* ============================================================
    9. RESPONSIVE (max-width: 900px)
    ============================================================ */
 
@@ -643,6 +681,16 @@ em {
   /* Services: single column */
   .services-grid {
     grid-template-columns: 1fr;
+  }
+
+  .service-card {
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .service-anim {
+    width: 100%;
+    flex: 0 0 auto;
   }
 
   /* About: single column */
