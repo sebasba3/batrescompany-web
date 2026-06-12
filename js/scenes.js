@@ -1,56 +1,67 @@
 /* ============================================================
-   BATRES COMPANY LIMITED — scenes.js
-   Live WebGL figures (replace the HF-01 / KIE-01..04 asset
-   placeholders). Art direction per HANDOFF.md: concrete gray
-   + white + single rust accent, flat light, architectural.
-   Every scene = subtle idle loop + scroll-driven progress.
-   Requires three.js r128 and site.js (window.BC).
+   BATRES COMPANY LIMITED — scenes.js (V2)
+   1) Process band (inicio): full-bleed dark scene — concrete
+      blocks assemble into a wall as you scroll; a molten rust
+      light travels the joints once locked.
+   2) Servicios stage: ONE persistent fixed canvas; four scene
+      groups (pipeline / agent / merge / data) swap through the
+      fog as the chapters scroll by.
+   Requires three.js r128 + site.js (window.BC).
    ============================================================ */
 
 (function () {
   'use strict';
   if (!window.THREE || !window.BC) return;
   var THREE = window.THREE;
+  var hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
 
-  /* ---------- shared materials / helpers ---------- */
+  function smooth(x) { return x < 0 ? 0 : x > 1 ? 1 : x * x * (3 - 2 * x); }
+  function clamp01(x) { return x < 0 ? 0 : x > 1 ? 1 : x; }
+  function lerp(a, b, t) { return a + (b - a) * t; }
 
-  var INK = 0x1a1a1a, CONCRETE = 0xe9e9e6, RUST = 0xc95a0f;
-
-  function concreteMat() {
-    return new THREE.MeshStandardMaterial({ color: CONCRETE, roughness: 0.95, metalness: 0, flatShading: true });
+  function glowTexture() {
+    var c = document.createElement('canvas');
+    c.width = c.height = 256;
+    var g = c.getContext('2d');
+    var grad = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+    grad.addColorStop(0, 'rgba(255,140,60,0.9)');
+    grad.addColorStop(0.35, 'rgba(255,110,35,0.34)');
+    grad.addColorStop(1, 'rgba(255,110,35,0)');
+    g.fillStyle = grad;
+    g.fillRect(0, 0, 256, 256);
+    return new THREE.CanvasTexture(c);
   }
-  function rustMat() { return new THREE.MeshBasicMaterial({ color: RUST }); }
-  function edgeMat() { return new THREE.LineBasicMaterial({ color: INK }); }
+  function mkGlow(scale) {
+    var s = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: glowTexture(), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true
+    }));
+    s.scale.set(scale, scale, 1);
+    return s;
+  }
+
+  var concreteMat = new THREE.MeshStandardMaterial({ color: 0x8F8D86, roughness: 0.94, metalness: 0, flatShading: true });
+  var darkMat = new THREE.MeshStandardMaterial({ color: 0x55534E, roughness: 0.96, metalness: 0, flatShading: true });
+  var rustMat = new THREE.MeshBasicMaterial({ color: 0xFF7A29 });
+  var edgeMat = new THREE.LineBasicMaterial({ color: 0x0C0C0B, transparent: true, opacity: 0.5 });
 
   function block(w, h, d, mat) {
-    var g = new THREE.BoxGeometry(w, h, d);
-    var m = new THREE.Mesh(g, mat || concreteMat());
-    m.add(new THREE.LineSegments(new THREE.EdgesGeometry(g), edgeMat()));
+    var geo = new THREE.BoxGeometry(w, h, d);
+    var m = new THREE.Mesh(geo, mat || concreteMat);
+    m.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo), edgeMat));
     return m;
   }
 
-  function clamp01(x) { return x < 0 ? 0 : (x > 1 ? 1 : x); }
-  function smooth(x) { x = clamp01(x); return x * x * (3 - 2 * x); }
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  function mount(host, camPos, fov) {
-    var W = host.clientWidth || 600;
-    var H = host.clientHeight || 450;
+  function mkRenderer(host, coarse) {
+    var W = host.clientWidth || window.innerWidth;
+    var H = host.clientHeight || window.innerHeight;
     var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 2));
     renderer.setSize(W, H);
     host.appendChild(renderer.domElement);
+    return renderer;
+  }
 
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(fov || 26, W / H, 0.1, 100);
-    camera.position.set(camPos[0], camPos[1], camPos[2]);
-    camera.lookAt(0, 0, 0);
-
-    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
-    var dir = new THREE.DirectionalLight(0xffffff, 0.55);
-    dir.position.set(2.5, 4, 3);
-    scene.add(dir);
-
+  function watchResize(host, camera, renderer) {
     var ro = new ResizeObserver(function () {
       var w = host.clientWidth, h = host.clientHeight;
       if (!w || !h) return;
@@ -59,362 +70,315 @@
       renderer.setSize(w, h);
     });
     ro.observe(host);
-
-    return { renderer: renderer, scene: scene, camera: camera };
-  }
-
-  function register(el, hostSel, camPos, fov, builder) {
-    var host = el.querySelector(hostSel);
-    if (!host) return;
-    var ctx = mount(host, camPos, fov);
-    var update = builder(ctx.scene, ctx.camera);
-    window.BC.addScene({
-      el: el,
-      render: function (dt, t, p, v) {
-        update(dt, t, p, v);
-        ctx.renderer.render(ctx.scene, ctx.camera);
-      },
-      renderOnce: function () {
-        update(0.016, 1.0, 0.62, 0);
-        ctx.renderer.render(ctx.scene, ctx.camera);
-      }
-    });
   }
 
   /* ============================================================
-     PROCESS BAND (HF-01) — concrete blocks assemble along a grid
-     into an interlocking structure; rust seam light travels the
-     joints. Assembly is driven by scroll progress.
+     1) PROCESS BAND — assembling wall (inicio)
      ============================================================ */
+  (function () {
+    var section = document.querySelector('[data-scene="process"]');
+    if (!section) return;
+    var host = section.querySelector('.band-canvas');
+    if (!host) return;
 
-  function buildProcess(scene) {
-    var group = new THREE.Group();
-    group.rotation.x = -0.06;
-    scene.add(group);
+    var renderer = mkRenderer(host, window.BC.coarse);
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0F0F0E, 0.05);
+    var camera = new THREE.PerspectiveCamera(30, (host.clientWidth || 1) / (host.clientHeight || 1), 0.1, 100);
+    camera.position.set(0, 0.6, 9.2);
+    camera.lookAt(0, 0.4, 0);
 
-    // interlocking bond: 3 rows, staggered widths (running bond)
-    var rows = [
-      [1.6, 1.0, 1.4, 1.0, 1.6],
-      [1.0, 1.5, 1.1, 1.5, 1.0],
-      [1.4, 1.0, 1.6, 1.0, 1.4]
-    ];
-    var H = 0.52, D = 0.62, GAPJ = 0.07;
+    scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+    var key = new THREE.DirectionalLight(0xfff2e6, 0.7);
+    key.position.set(3, 5, 4);
+    scene.add(key);
+
+    var wall = new THREE.Group();
+    scene.add(wall);
+
+    var ROWS = 4, COLS = 7;
+    var BW = 0.92, BH = 0.46, BD = 0.5, GAP = 0.05;
     var blocks = [];
-
-    rows.forEach(function (widths, r) {
-      var total = widths.reduce(function (a, b) { return a + b; }, 0) + GAPJ * (widths.length - 1);
-      var x = -total / 2;
-      widths.forEach(function (w, c) {
-        var b = block(w, H, D);
-        var hx = x + w / 2;
-        var hy = (r - 1) * (H + GAPJ);
-        x += w + GAPJ;
-        var dirSign = (r + c) % 2 === 0 ? 1 : -1;
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var b = block(BW, BH, BD, darkMat);
+        var offset = (r % 2) ? (BW + GAP) / 2 : 0;
+        var hx = (c - (COLS - 1) / 2) * (BW + GAP) + offset;
+        var hy = (r - (ROWS - 1) / 2) * (BH + GAP) + 0.4;
+        var seed = Math.random();
         b.userData = {
-          home: [hx, hy, 0],
-          from: [hx + dirSign * (2.2 + c * 0.45), hy + 1.9 + r * 0.55, dirSign * 1.3],
-          tilt: dirSign * (0.5 + 0.13 * c),
-          order: (r * widths.length + c)
+          hx: hx, hy: hy,
+          sx: hx + (Math.random() - 0.5) * 9,
+          sy: hy + (Math.random() - 0.5) * 6 - 1,
+          sz: -3 - Math.random() * 7,
+          srx: (Math.random() - 0.5) * 2.4,
+          sry: (Math.random() - 0.5) * 2.4,
+          order: (r * COLS + c) / (ROWS * COLS),
+          seed: seed
         };
-        group.add(b);
         blocks.push(b);
-      });
-    });
-    var N = blocks.length;
+        wall.add(b);
+      }
+    }
 
-    // seam light travels the horizontal joints
-    var seam = new THREE.Mesh(new THREE.BoxGeometry(0.5, GAPJ * 0.9, D * 1.04), rustMat());
-    group.add(seam);
-    var glow = new THREE.PointLight(RUST, 0.9, 5);
-    group.add(glow);
+    var seamGlow = mkGlow(2.6);
+    wall.add(seamGlow);
+    var seamLight = new THREE.PointLight(0xFF7A29, 0, 5);
+    wall.add(seamLight);
 
-    var span = 3.6;
-    return function (dt, t, p) {
-      var ap = smooth(clamp01((p - 0.12) / 0.45)); // assembled by p≈0.57
+    function update(dt, t, p) {
+      var ap = smooth(clamp01((p - 0.1) / 0.55));
       blocks.forEach(function (b) {
         var u = b.userData;
-        var w0 = u.order / N * 0.72;
-        var lp = smooth(clamp01((ap - w0) / 0.3));
-        b.position.set(
-          lerp(u.from[0], u.home[0], lp),
-          lerp(u.from[1], u.home[1], lp),
-          lerp(u.from[2], u.home[2], lp)
-        );
-        b.rotation.z = u.tilt * (1 - lp);
-        b.rotation.x = u.tilt * 0.5 * (1 - lp);
+        var w = smooth(clamp01((ap - u.order * 0.55) / 0.45));
+        b.position.set(lerp(u.sx, u.hx, w), lerp(u.sy, u.hy, w), lerp(u.sz, 0, w));
+        b.rotation.set(u.srx * (1 - w), u.sry * (1 - w), 0);
       });
 
-      // seam travels left->right, alternating between the two horizontal joints
-      var u2 = (t * 0.16) % 2;
-      var jy = (u2 < 1 ? -1 : 1) * (H / 2 + GAPJ / 2);
-      var ux = (u2 % 1);
-      seam.position.set(lerp(-span, span, ux), jy, 0);
-      seam.visible = ap > 0.55;
-      var pulse = 0.6 + Math.sin(t * 2.2) * 0.25;
-      glow.position.copy(seam.position);
-      glow.position.z = 0.9;
-      glow.intensity = seam.visible ? pulse : 0.15;
+      var lit = ap > 0.82;
+      var u2 = (t * 0.22) % 2;
+      var sx = lerp(-3.2, 3.2, (u2 < 1 ? u2 : 2 - u2));
+      var sy = 0.4 + Math.sin(t * 0.7) * 0.7;
+      seamGlow.position.set(sx, sy, 0.5);
+      seamLight.position.set(sx, sy, 0.8);
+      var on = lit ? (0.85 + Math.sin(t * 3) * 0.15) : 0;
+      seamGlow.material.opacity = on;
+      seamLight.intensity = on * 1.6;
 
-      group.rotation.y = Math.sin(t * 0.12) * 0.07 + (p - 0.5) * 0.22;
-      group.position.y = Math.sin(t * 0.4) * 0.02;
-    };
-  }
-
-  /* ============================================================
-     KIE-01 — FLUJOS: blocks flow left->right along a thin rust
-     pipeline. Flow speed builds with scroll progress.
-     ============================================================ */
-
-  function buildPipeline(scene) {
-    var group = new THREE.Group();
-    group.rotation.x = 0.32;
-    group.rotation.y = -0.5;
-    scene.add(group);
-
-    // polyline path with two elbows
-    var P = [
-      new THREE.Vector3(-2.3, -0.5, 0),
-      new THREE.Vector3(-0.6, -0.5, 0),
-      new THREE.Vector3(-0.6, 0.5, 0),
-      new THREE.Vector3(0.9, 0.5, 0),
-      new THREE.Vector3(0.9, -0.2, 0),
-      new THREE.Vector3(2.3, -0.2, 0)
-    ];
-    var lens = [], total = 0;
-    for (var i = 0; i < P.length - 1; i++) {
-      var L = P[i].distanceTo(P[i + 1]);
-      lens.push(L);
-      total += L;
-    }
-    // rust pipe segments
-    for (var s = 0; s < P.length - 1; s++) {
-      var a = P[s], b = P[s + 1];
-      var seg = new THREE.Mesh(new THREE.BoxGeometry(Math.abs(b.x - a.x) || 0.045, Math.abs(b.y - a.y) || 0.045, 0.045), rustMat());
-      seg.position.set((a.x + b.x) / 2, (a.y + b.y) / 2, 0);
-      group.add(seg);
+      wall.rotation.y = Math.sin(t * 0.1) * 0.04;
+      camera.position.x = Math.sin(t * 0.07) * 0.3;
+      camera.lookAt(0, 0.4, 0);
     }
 
-    function pointAt(u) {
-      var dgt = u * total;
-      for (var k = 0; k < lens.length; k++) {
-        if (dgt <= lens[k]) {
-          return new THREE.Vector3().lerpVectors(P[k], P[k + 1], dgt / lens[k]);
-        }
-        dgt -= lens[k];
-      }
-      return P[P.length - 1].clone();
-    }
-
-    var COUNT = 8;
-    var cubes = [];
-    for (var c = 0; c < COUNT; c++) {
-      var cube = block(0.26, 0.26, 0.26);
-      group.add(cube);
-      cubes.push(cube);
-    }
-
-    // endpoint pads
-    var src = block(0.55, 0.55, 0.55);
-    src.position.copy(P[0]); src.position.x -= 0.25;
-    group.add(src);
-    var dst = block(0.7, 0.7, 0.7);
-    dst.position.copy(P[P.length - 1]); dst.position.x += 0.35;
-    group.add(dst);
-
-    var travel = 0;
-    return function (dt, t, p) {
-      var speed = 0.05 + smooth(p) * 0.16;
-      travel += dt * speed;
-      cubes.forEach(function (cube, idx) {
-        var u = (travel + idx / COUNT) % 1;
-        cube.position.copy(pointAt(u));
-        var pop = Math.min(smooth(u / 0.08), smooth((1 - u) / 0.08));
-        cube.scale.setScalar(Math.max(pop, 0.001));
-        cube.rotation.y = u * Math.PI * 2;
-      });
-      dst.rotation.y = t * 0.3;
-      group.rotation.y = -0.5 + Math.sin(t * 0.18) * 0.05 + (p - 0.5) * 0.3;
-    };
-  }
-
-  /* ============================================================
-     KIE-02 — AGENTES: concrete cube with rust seam, orbited by
-     thin wireframe rings. Orbit tilt/speed evolve with scroll.
-     ============================================================ */
-
-  function buildAgent(scene) {
-    var group = new THREE.Group();
-    scene.add(group);
-
-    var core = new THREE.Group();
-    var halfL = block(0.55, 1.15, 1.15);
-    var halfR = block(0.55, 1.15, 1.15);
-    halfL.position.x = -0.31;
-    halfR.position.x = 0.31;
-    var seam = new THREE.Mesh(new THREE.BoxGeometry(0.07, 1.12, 1.12), rustMat());
-    core.add(halfL); core.add(halfR); core.add(seam);
-    group.add(core);
-
-    function ring(r) {
-      var pts = [];
-      for (var i = 0; i <= 72; i++) {
-        var a = i / 72 * Math.PI * 2;
-        pts.push(new THREE.Vector3(Math.cos(a) * r, 0, Math.sin(a) * r));
-      }
-      var g = new THREE.BufferGeometry().setFromPoints(pts);
-      return new THREE.LineLoop(g, edgeMat());
-    }
-
-    var rings = [ring(1.25), ring(1.55), ring(1.85)];
-    rings.forEach(function (rg) { group.add(rg); });
-
-    return function (dt, t, p) {
-      var e = smooth(p);
-      core.rotation.y = t * 0.12 + e * 1.4;
-      core.rotation.x = -0.04;
-      rings[0].rotation.set(0.5 + e * 0.5, t * 0.42, 0.12);
-      rings[1].rotation.set(-0.65 - e * 0.35, -t * 0.3, -0.2);
-      rings[2].rotation.set(0.2 + e * 0.8, t * 0.2, 0.45 + e * 0.3);
-      var sc = 1 + e * 0.12;
-      rings.forEach(function (rg) { rg.scale.setScalar(sc); });
-      group.rotation.y = Math.sin(t * 0.15) * 0.06;
-      group.position.y = Math.sin(t * 0.5) * 0.03;
-    };
-  }
-
-  /* ============================================================
-     KIE-03 — INTEGRACIÓN: four blocks converge into one slab
-     via rust bridges. Convergence = scroll progress.
-     ============================================================ */
-
-  function buildMerge(scene) {
-    var group = new THREE.Group();
-    group.rotation.x = 0.42;
-    group.rotation.y = 0.62;
-    scene.add(group);
-
-    var off = 1.15, home = 0.47, size = 0.88;
-    var spots = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
-    var cubes = spots.map(function (sxz) {
-      var b = block(size, 0.6, size);
-      b.userData = { sx: sxz[0], sz: sxz[1] };
-      group.add(b);
-      return b;
+    watchResize(host, camera, renderer);
+    window.BC.addScene({
+      el: section,
+      render: function (dt, t, p) { update(dt, t, p); renderer.render(scene, camera); },
+      renderOnce: function () { update(0.016, 1, 0.9); renderer.render(scene, camera); }
     });
-
-    // bridges along x (2) and z (2)
-    var bridges = [];
-    for (var i = 0; i < 4; i++) {
-      var br = new THREE.Mesh(new THREE.BoxGeometry(1, 0.1, 0.1), rustMat());
-      group.add(br);
-      bridges.push(br);
-    }
-
-    return function (dt, t, p) {
-      var conv = smooth(clamp01((p - 0.15) / 0.5));
-      var d = lerp(off, home, conv);
-      cubes.forEach(function (b) {
-        b.position.set(b.userData.sx * d, 0, b.userData.sz * d);
-        b.rotation.y = (1 - conv) * b.userData.sx * 0.25;
-      });
-      var span = Math.max(d * 2 - size, 0.001);
-      var bs = 0.12 + conv * 0.5;
-      // x-direction bridges
-      bridges[0].position.set(0, 0, -d); bridges[0].scale.set(span, bs, bs);
-      bridges[1].position.set(0, 0, d);  bridges[1].scale.set(span, bs, bs);
-      // z-direction bridges
-      bridges[2].position.set(-d, 0, 0); bridges[2].rotation.y = Math.PI / 2; bridges[2].scale.set(span, bs, bs);
-      bridges[3].position.set(d, 0, 0);  bridges[3].rotation.y = Math.PI / 2; bridges[3].scale.set(span, bs, bs);
-
-      group.rotation.y = 0.62 + Math.sin(t * 0.14) * 0.05 + (p - 0.5) * 0.35;
-    };
-  }
+  })();
 
   /* ============================================================
-     KIE-04 — DATOS: chaotic sheets enter a block on the left,
-     emerge as a uniform stack (one rust tile) on the right.
-     Ordering ratio driven by scroll.
+     2) SERVICIOS STAGE — one fixed canvas, four morphing groups
      ============================================================ */
+  (function () {
+    var stage = document.querySelector('.svc-stage');
+    var chaptersWrap = document.querySelector('.chapters');
+    if (!stage || !chaptersWrap) return;
 
-  function buildData(scene) {
-    var group = new THREE.Group();
-    group.rotation.x = 0.3;
-    group.rotation.y = -0.35;
-    scene.add(group);
+    var renderer = mkRenderer(stage, window.BC.coarse);
+    var scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0F0F0E, 0.085);
+    var camera = new THREE.PerspectiveCamera(32, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0.4, 7.4);
+    camera.lookAt(0, 0, 0);
 
-    // central processor block with rust seam slot
-    var proc = new THREE.Group();
-    var pTop = block(1.25, 0.55, 1.0);
-    var pBot = block(1.25, 0.55, 1.0);
-    pTop.position.y = 0.32;
-    pBot.position.y = -0.32;
-    var slot = new THREE.Mesh(new THREE.BoxGeometry(1.22, 0.07, 0.97), rustMat());
-    proc.add(pTop); proc.add(pBot); proc.add(slot);
-    group.add(proc);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+    var key = new THREE.DirectionalLight(0xfff2e6, 0.75);
+    key.position.set(3, 5, 4);
+    scene.add(key);
 
-    // incoming chaotic sheets
-    var SHEETS = 10;
-    var sheets = [];
-    for (var i = 0; i < SHEETS; i++) {
-      var sh = block(0.46, 0.025, 0.62);
-      sh.userData = {
-        seed: i / SHEETS,
-        ry: (Math.random() - 0.5) * 1.4,
-        rz: (Math.random() - 0.5) * 0.9,
-        oy: (Math.random() - 0.5) * 1.1,
-        oz: (Math.random() - 0.5) * 0.8
+    /* --- G0: pipeline --- */
+    var g0 = new THREE.Group();
+    (function () {
+      var pts = [
+        new THREE.Vector3(-3.4, -0.7, 0), new THREE.Vector3(-1.4, -0.7, 0),
+        new THREE.Vector3(-1.4, 0.7, 0), new THREE.Vector3(1.2, 0.7, 0),
+        new THREE.Vector3(1.2, -0.5, 0), new THREE.Vector3(3.4, -0.5, 0)
+      ];
+      for (var i = 0; i < pts.length - 1; i++) {
+        var a = pts[i], b2 = pts[i + 1];
+        var len = a.distanceTo(b2);
+        var seg = new THREE.Mesh(new THREE.BoxGeometry(
+          Math.abs(b2.x - a.x) || 0.035, Math.abs(b2.y - a.y) || 0.035, 0.035), rustMat);
+        seg.position.set((a.x + b2.x) / 2, (a.y + b2.y) / 2, 0);
+        g0.add(seg);
+      }
+      var cubes = [];
+      for (var k = 0; k < 8; k++) {
+        var c = block(0.3, 0.3, 0.3);
+        g0.add(c);
+        cubes.push(c);
+      }
+      var total = 0;
+      var lens = [];
+      for (var j = 0; j < pts.length - 1; j++) { var l = pts[j].distanceTo(pts[j + 1]); lens.push(l); total += l; }
+      g0.userData.update = function (dt, t, w) {
+        var travel = (t * (0.06 + w * 0.1)) % 1;
+        cubes.forEach(function (c, idx) {
+          var u = (travel + idx / cubes.length) % 1;
+          var dist = u * total, acc = 0;
+          for (var s = 0; s < lens.length; s++) {
+            if (dist <= acc + lens[s]) {
+              var lt = (dist - acc) / lens[s];
+              c.position.lerpVectors(pts[s], pts[s + 1], lt);
+              break;
+            }
+            acc += lens[s];
+          }
+          var pop = Math.min(u * 6, (1 - u) * 6, 1);
+          c.scale.setScalar(0.4 + pop * 0.6);
+          c.rotation.y = t * 0.6 + idx;
+        });
       };
-      group.add(sh);
-      sheets.push(sh);
+      var gl = mkGlow(1.8); gl.position.set(-3.4, -0.7, 0.2); g0.add(gl);
+    })();
+
+    /* --- G1: agent --- */
+    var g1 = new THREE.Group();
+    (function () {
+      var top = block(1.5, 0.72, 1.5);
+      top.position.y = 0.42;
+      var bot = block(1.5, 0.72, 1.5);
+      bot.position.y = -0.42;
+      var seam = new THREE.Mesh(new THREE.BoxGeometry(1.46, 0.1, 1.46), rustMat);
+      g1.add(top, bot, seam);
+      var rings = [];
+      for (var i = 0; i < 2; i++) {
+        var ring = new THREE.Mesh(new THREE.TorusGeometry(1.7 + i * 0.3, 0.02, 8, 80),
+          new THREE.MeshStandardMaterial({ color: 0x2A2A28, roughness: 0.6, metalness: 0.4 }));
+        rings.push(ring);
+        g1.add(ring);
+      }
+      var gl = mkGlow(2.4); g1.add(gl);
+      var pl = new THREE.PointLight(0xFF7A29, 0.8, 5); g1.add(pl);
+      g1.userData.update = function (dt, t, w) {
+        g1.rotation.y = t * 0.18;
+        top.position.y = 0.42 + Math.sin(t * 1.1) * 0.045 + w * 0.12;
+        bot.position.y = -0.42 - Math.sin(t * 1.1) * 0.045 - w * 0.12;
+        rings[0].rotation.x = 1.1 + Math.sin(t * 0.3) * 0.2;
+        rings[0].rotation.y = t * 0.4;
+        rings[1].rotation.x = -0.9 + Math.cos(t * 0.26) * 0.2;
+        rings[1].rotation.y = -t * 0.32;
+        gl.material.opacity = 0.6 + w * 0.3 + Math.sin(t * 2.2) * 0.08;
+      };
+    })();
+
+    /* --- G2: merge --- */
+    var g2 = new THREE.Group();
+    (function () {
+      var quads = [], bridges = [];
+      var dirs = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
+      dirs.forEach(function (d) {
+        var b = block(0.85, 0.85, 0.85);
+        b.userData.dir = d;
+        quads.push(b);
+        g2.add(b);
+        var br = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.05, 0.05), rustMat);
+        bridges.push(br);
+        g2.add(br);
+      });
+      g2.userData.update = function (dt, t, w) {
+        var conv = smooth(w) * 0.92;
+        var d = lerp(1.5, 0.46, conv);
+        quads.forEach(function (b, i) {
+          b.position.set(b.userData.dir[0] * d, b.userData.dir[1] * d * 0.7, 0);
+          b.rotation.y = (1 - conv) * (i % 2 ? 0.5 : -0.5) + t * 0.1;
+          var br = bridges[i];
+          br.position.set(b.userData.dir[0] * d * 0.5, b.userData.dir[1] * d * 0.35, 0);
+          var span = Math.max(d * 1.2 - 0.85, 0.01);
+          br.scale.set(span / 0.05 * Math.abs(b.userData.dir[0]) || 1, span / 0.05 * 0.4, 1);
+        });
+        g2.rotation.y = Math.sin(t * 0.2) * 0.18;
+      };
+      var gl = mkGlow(2.2); g2.add(gl);
+    })();
+
+    /* --- G3: data --- */
+    var g3 = new THREE.Group();
+    (function () {
+      var sheets = [];
+      for (var i = 0; i < 14; i++) {
+        var s = block(0.66, 0.045, 0.5);
+        s.userData = {
+          cx: -2.6 + (Math.random() - 0.5) * 1.8,
+          cy: (Math.random() - 0.5) * 2.4,
+          cz: (Math.random() - 0.5) * 1.6,
+          crx: (Math.random() - 0.5) * 2,
+          cry: (Math.random() - 0.5) * 2,
+          oy: -0.85 + i * 0.13,
+          rust: i === 9
+        };
+        if (s.userData.rust) { s.children[0].visible = false; s.material = rustMat; }
+        sheets.push(s);
+        g3.add(s);
+      }
+      g3.userData.update = function (dt, t, w) {
+        sheets.forEach(function (s, i) {
+          var u = s.userData;
+          var ww = smooth(clamp01((w - i * 0.04) / 0.6));
+          s.position.set(
+            lerp(u.cx + Math.sin(t * 0.8 + i) * 0.12, 1.6, ww),
+            lerp(u.cy + Math.cos(t * 0.6 + i) * 0.12, u.oy, ww),
+            lerp(u.cz, 0, ww)
+          );
+          s.rotation.set(u.crx * (1 - ww), u.cry * (1 - ww), 0);
+        });
+        g3.rotation.y = Math.sin(t * 0.15) * 0.1;
+      };
+      var gl = mkGlow(1.9); gl.position.set(1.6, 0.3, 0.3); g3.add(gl);
+    })();
+
+    var groups = [g0, g1, g2, g3];
+    groups.forEach(function (g) { scene.add(g); });
+
+    /* chapter focus from scroll */
+    var focus = 0, focusTarget = 0, stageOn = false;
+    if (hasGsap) {
+      ScrollTrigger.create({
+        trigger: chaptersWrap,
+        start: 'top 70%',
+        end: 'bottom 30%',
+        onUpdate: function (self) { focusTarget = self.progress * 3; },
+        onToggle: function (self) {
+          stageOn = self.isActive;
+          gsap.to(stage, { opacity: self.isActive ? 1 : 0, duration: 0.6, overwrite: 'auto' });
+        }
+      });
+    } else {
+      stage.style.opacity = '1';
+      stageOn = true;
     }
 
-    // ordered output stack
-    var TILES = 8;
-    var tiles = [];
-    for (var k = 0; k < TILES; k++) {
-      var tile = block(0.5, 0.07, 0.66, k === 5 ? rustMat() : concreteMat());
-      tile.position.set(1.7, -0.62 + k * 0.105, 0);
-      group.add(tile);
-      tiles.push(tile);
+    /* rail highlight */
+    var railSpans = document.querySelectorAll('.chapter-rail span');
+    if (hasGsap && railSpans.length) {
+      gsap.to('.chapter-rail', {
+        opacity: 1, duration: 0.5,
+        scrollTrigger: { trigger: chaptersWrap, start: 'top 60%', end: 'bottom 40%', toggleActions: 'play reverse play reverse' }
+      });
     }
 
-    return function (dt, t, p) {
-      sheets.forEach(function (sh) {
-        var u = (t * 0.1 + sh.userData.seed) % 1;
-        var x = lerp(-2.5, -0.55, u);
-        var settle = smooth((u - 0.55) / 0.45); // straighten as they near the slot
-        sh.position.set(x, sh.userData.oy * (1 - settle), sh.userData.oz * (1 - settle));
-        sh.rotation.y = sh.userData.ry * (1 - settle);
-        sh.rotation.z = sh.userData.rz * (1 - settle);
-        var vanish = smooth((u - 0.92) / 0.08);
-        var appear = smooth(u / 0.06);
-        sh.scale.setScalar(Math.max(appear * (1 - vanish), 0.001));
+    function update(dt, t) {
+      focus += (focusTarget - focus) * 0.08;
+      var active = Math.round(focus);
+      railSpans.forEach(function (s, i) { s.classList.toggle('is-on', i === Math.min(Math.max(active, 0), 3)); });
+
+      groups.forEach(function (g, k) {
+        var w = clamp01(1 - Math.abs(focus - k));
+        var off = focus - k; // negative = below, positive = passed
+        g.visible = w > 0.02;
+        if (!g.visible) return;
+        g.position.y = -off * 3.4;
+        g.position.z = -(1 - w) * 9;
+        if (g.userData.update) g.userData.update(dt, t, w);
       });
 
-      var ratio = smooth(clamp01((p - 0.12) / 0.55)) * TILES;
-      tiles.forEach(function (tile, idx) {
-        var lp = clamp01(ratio - idx);
-        tile.scale.setScalar(Math.max(smooth(lp), 0.001));
-      });
+      camera.position.x = Math.sin(t * 0.08) * 0.25;
+      camera.lookAt(0, 0, 0);
+    }
 
-      slot.scale.x = 1 + Math.sin(t * 2.4) * 0.015;
-      group.rotation.y = -0.35 + Math.sin(t * 0.16) * 0.05 + (p - 0.5) * 0.3;
-    };
-  }
+    var roCam = new ResizeObserver(function () {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+    roCam.observe(document.body);
 
-  /* ---------- wire up every [data-scene] on the page ---------- */
-
-  var builders = {
-    process:  { fn: buildProcess,  cam: [0, 1.6, 7.2],  fov: 30 },
-    pipeline: { fn: buildPipeline, cam: [0, 1.5, 7.4],  fov: 32 },
-    agent:    { fn: buildAgent,    cam: [3.0, 2.0, 4.8], fov: 30 },
-    merge:    { fn: buildMerge,    cam: [0, 2.6, 5.4],  fov: 32 },
-    data:     { fn: buildData,     cam: [0, 1.5, 5.6],  fov: 32 }
-  };
-
-  document.querySelectorAll('[data-scene]').forEach(function (el) {
-    var name = el.getAttribute('data-scene');
-    var b = builders[name];
-    if (b) register(el, '.scene-canvas-host', b.cam, b.fov, b.fn);
-  });
+    window.BC.addScene({
+      el: chaptersWrap,
+      render: function (dt, t) { if (stageOn || !hasGsap) { update(dt, t); renderer.render(scene, camera); } },
+      renderOnce: function () { focus = focusTarget = 0; stage.style.opacity = '1'; update(0.016, 1); renderer.render(scene, camera); }
+    });
+  })();
 })();

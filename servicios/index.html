@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -13,6 +13,7 @@
   <meta property="og:title" content="Servicios — Batres Company Limited">
   <meta property="og:description" content="Automatización de flujos, agentes de IA, integración de sistemas y procesamiento de datos con IA.">
   <meta property="og:url" content="https://batrescompany.tech/servicios/">
+  <meta property="og:image" content="https://batrescompany.tech/assets/og-hero.jpg">
 
   <link rel="icon" type="image/svg+xml" href="/assets/batres-icon.svg">
 
@@ -22,12 +23,16 @@
 
   <link rel="stylesheet" href="/css/styles.css">
 
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script defer src="/js/site.js"></script>
   <script defer src="/js/scenes.js"></script>
 </head>
-<body>
+<body class="act-light">
 
+  <div class="grain" aria-hidden="true"></div>
   <div class="progress-bar" aria-hidden="true"></div>
 
   <!-- ================= HEADER ================= -->
@@ -68,106 +73,98 @@
     </div>
   </div>
 
+  <!-- persistent WebGL stage behind the chapters -->
+  <div class="svc-stage" aria-hidden="true"></div>
+
+  <div class="chapter-rail" aria-hidden="true">
+    <span>S-01</span><span>S-02</span><span>S-03</span><span>S-04</span>
+  </div>
+
   <main>
 
-    <!-- ================= PAGE HEADER ================= -->
-    <section class="page-head">
-      <div>
-        <div class="kicker" data-reveal>§ 01 — SERVICIOS</div>
-        <h1 data-reveal data-reveal-delay="80">Cuatro disciplinas.<br>Una sola <em class="rust">estructura.</em></h1>
-      </div>
-      <div class="index-col" data-reveal data-reveal-delay="160">
-        01 / <b>AUTOMATIZACIÓN DE FLUJOS</b><br>
-        02 / <b>AGENTES DE IA A MEDIDA</b><br>
-        03 / <b>INTEGRACIÓN DE SISTEMAS</b><br>
-        04 / <b>PROCESAMIENTO DE DATOS</b>
+    <!-- ================= PAGE HEAD ================= -->
+    <section class="page-head" data-act="light">
+      <div class="page-head-grid">
+        <div>
+          <div class="kicker" data-reveal>§ 01 — SERVICIOS</div>
+          <h1 data-split>Cuatro disciplinas.<br>Una sola <em class="rust">estructura.</em></h1>
+        </div>
+        <div class="index-col" data-reveal data-reveal-delay="200">
+          01 / <b>AUTOMATIZACIÓN DE FLUJOS</b><br>
+          02 / <b>AGENTES DE IA A MEDIDA</b><br>
+          03 / <b>INTEGRACIÓN DE SISTEMAS</b><br>
+          04 / <b>PROCESAMIENTO DE DATOS</b>
+        </div>
       </div>
     </section>
 
-    <!-- ================= SERVICE 01 — FLUJOS ================= -->
-    <section class="svc-detail" aria-labelledby="s1-heading">
-      <div>
-        <div class="svc-detail-num" data-reveal>01</div>
-        <h2 id="s1-heading" data-reveal data-reveal-delay="60">Automatización de Flujos</h2>
-        <p data-reveal data-reveal-delay="120">Mapeamos tus procesos de extremo a extremo y reemplazamos los pasos manuales con pipelines inteligentes. WhatsApp → Calendar, email → CRM, formularios → hojas de cálculo — cualquier flujo repetitivo, automatizado.</p>
-        <div class="svc-detail-tags" data-reveal data-reveal-delay="180">PROCESS · INTEGRATION · N8N</div>
-      </div>
-      <figure class="fig" data-reveal data-reveal-delay="100">
-        <div class="fig-frame fig-frame--paper" data-scene="pipeline">
-          <div class="cross-h"></div><div class="cross-v"></div>
-          <div class="scene-canvas-host"></div>
-          <div class="clearspace clearspace--tight"></div>
-          <span class="fig-ann fig-ann--bl">FIG. S-01 · 4:3 · WEBGL</span>
-          <div class="fig-ann fig-ann--tr">PIPELINE DE FLUJOS</div>
-        </div>
-      </figure>
-    </section>
+    <!-- ================= CHAPTERS ================= -->
+    <div class="chapters" data-act="dark">
 
-    <!-- ================= SERVICE 02 — AGENTES ================= -->
-    <section class="svc-detail sec--paper" aria-labelledby="s2-heading">
-      <figure class="fig" data-reveal data-reveal-delay="100">
-        <div class="fig-frame" data-scene="agent">
-          <div class="cross-h"></div><div class="cross-v"></div>
-          <div class="scene-canvas-host"></div>
-          <div class="clearspace clearspace--tight"></div>
-          <span class="fig-ann fig-ann--bl">FIG. S-02 · 4:3 · WEBGL</span>
-          <div class="fig-ann fig-ann--tr">AGENTE AUTÓNOMO</div>
+      <section class="chapter" aria-labelledby="s1-heading">
+        <div class="chapter-inner">
+          <div class="chapter-copy">
+            <span class="chapter-num" data-reveal>S-01 — FLUJOS</span>
+            <h2 id="s1-heading" data-split>Automatización de Flujos</h2>
+            <p data-reveal>Mapeamos tus procesos de extremo a extremo y reemplazamos los pasos manuales con pipelines inteligentes. WhatsApp → Calendar, email → CRM, formularios → hojas de cálculo — cualquier flujo repetitivo, automatizado.</p>
+            <div class="chapter-tags" data-reveal>PROCESS · INTEGRATION · N8N</div>
+          </div>
+          <figure class="chapter-plate" data-reveal>
+            <img src="/assets/gen/svc-01.webp" alt="Cubos de concreto viajando por un riel de luz — automatización de flujos" loading="lazy">
+          </figure>
         </div>
-      </figure>
-      <div>
-        <div class="svc-detail-num" data-reveal>02</div>
-        <h2 id="s2-heading" data-reveal data-reveal-delay="60">Agentes de IA a Medida</h2>
-        <p data-reveal data-reveal-delay="120">Agentes autónomos que atienden consultas de clientes, agendan citas, monitorean sistemas y toman decisiones — operando 24/7 sin intervención humana, en tu infraestructura existente.</p>
-        <div class="svc-detail-tags" data-reveal data-reveal-delay="180">AGENTS · LLM · APIS</div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ================= SERVICE 03 — INTEGRACIÓN ================= -->
-    <section class="svc-detail" aria-labelledby="s3-heading">
-      <div>
-        <div class="svc-detail-num" data-reveal>03</div>
-        <h2 id="s3-heading" data-reveal data-reveal-delay="60">Integración de Sistemas</h2>
-        <p data-reveal data-reveal-delay="120">Conecta tu CRM, ERP, herramientas de comunicación y bases de datos en un ecosistema unificado — eliminando silos de datos y duplicación manual de información en toda tu operación.</p>
-        <div class="svc-detail-tags" data-reveal data-reveal-delay="180">API · SYNC · OPS</div>
-      </div>
-      <figure class="fig" data-reveal data-reveal-delay="100">
-        <div class="fig-frame fig-frame--paper" data-scene="merge">
-          <div class="cross-h"></div><div class="cross-v"></div>
-          <div class="scene-canvas-host"></div>
-          <div class="clearspace clearspace--tight"></div>
-          <span class="fig-ann fig-ann--bl">FIG. S-03 · 4:3 · WEBGL</span>
-          <div class="fig-ann fig-ann--tr">ECOSISTEMA UNIFICADO</div>
+      <section class="chapter chapter--flip" aria-labelledby="s2-heading">
+        <div class="chapter-inner">
+          <div class="chapter-copy">
+            <span class="chapter-num" data-reveal>S-02 — AGENTES</span>
+            <h2 id="s2-heading" data-split>Agentes de IA a Medida</h2>
+            <p data-reveal>Agentes autónomos que atienden consultas de clientes, agendan citas, monitorean sistemas y toman decisiones — operando 24/7, conectados a tus herramientas existentes.</p>
+            <div class="chapter-tags" data-reveal>AGENTS · LLM · APIS</div>
+          </div>
+          <figure class="chapter-plate" data-reveal>
+            <img src="/assets/gen/svc-02.webp" alt="Cubo de concreto con costura de luz, orbitado por anillos — agente autónomo" loading="lazy">
+          </figure>
         </div>
-      </figure>
-    </section>
+      </section>
 
-    <!-- ================= SERVICE 04 — DATOS ================= -->
-    <section class="svc-detail sec--paper" aria-labelledby="s4-heading">
-      <figure class="fig" data-reveal data-reveal-delay="100">
-        <div class="fig-frame" data-scene="data">
-          <div class="cross-h"></div><div class="cross-v"></div>
-          <div class="scene-canvas-host"></div>
-          <div class="clearspace clearspace--tight"></div>
-          <span class="fig-ann fig-ann--bl">FIG. S-04 · 4:3 · WEBGL</span>
-          <div class="fig-ann fig-ann--tr">EXTRACCIÓN DE DATOS</div>
+      <section class="chapter" aria-labelledby="s3-heading">
+        <div class="chapter-inner">
+          <div class="chapter-copy">
+            <span class="chapter-num" data-reveal>S-03 — INTEGRACIÓN</span>
+            <h2 id="s3-heading" data-split>Integración de Sistemas</h2>
+            <p data-reveal>Conecta tu CRM, ERP, herramientas de comunicación y bases de datos en un ecosistema unificado — eliminando silos de datos y duplicación manual de información en toda tu operación.</p>
+            <div class="chapter-tags" data-reveal>API · SYNC · OPS</div>
+          </div>
+          <figure class="chapter-plate" data-reveal>
+            <img src="/assets/gen/svc-03.webp" alt="Bloques de concreto convergiendo hacia un solo monolito — integración" loading="lazy">
+          </figure>
         </div>
-      </figure>
-      <div>
-        <div class="svc-detail-num" data-reveal>04</div>
-        <h2 id="s4-heading" data-reveal data-reveal-delay="60">Procesamiento de Datos con IA</h2>
-        <p data-reveal data-reveal-delay="120">Transforma datos no estructurados — documentos, emails, reportes — en información estructurada y accionable usando modelos de lenguaje y pipelines de extracción personalizados.</p>
-        <div class="svc-detail-tags" data-reveal data-reveal-delay="180">LLM · ETL · ANALYSIS</div>
-      </div>
-    </section>
+      </section>
+
+      <section class="chapter chapter--flip" aria-labelledby="s4-heading">
+        <div class="chapter-inner">
+          <div class="chapter-copy">
+            <span class="chapter-num" data-reveal>S-04 — DATOS</span>
+            <h2 id="s4-heading" data-split>Procesamiento de Datos con IA</h2>
+            <p data-reveal>Transforma datos no estructurados — documentos, emails, reportes — en información estructurada y accionable usando modelos de lenguaje y pipelines de extracción personalizados.</p>
+            <div class="chapter-tags" data-reveal>LLM · ETL · ANALYSIS</div>
+          </div>
+          <figure class="chapter-plate" data-reveal>
+            <img src="/assets/gen/svc-04.webp" alt="Láminas en caos transformándose en una pila ordenada — procesamiento de datos" loading="lazy">
+          </figure>
+        </div>
+      </section>
+
+    </div>
 
     <!-- ================= CTA ================= -->
-    <section class="sec band--dark">
-      <div class="band-cta band-cta--center">
-        <h2 data-reveal>Cuéntanos tu proceso más <em class="rust">repetitivo.</em></h2>
-        <div class="btn-row" data-reveal data-reveal-delay="100">
-          <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--rust">AGENDAR 30 MIN →</a>
-          <a href="/contacto/" class="btn btn--ghost-light">ESCRÍBENOS</a>
-        </div>
+    <section class="cta-band" data-act="dark">
+      <h2 data-split>Cuéntanos tu proceso más <em class="rust">repetitivo.</em></h2>
+      <div class="btn-row" data-reveal>
+        <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--rust">AGENDAR 30 MIN →</a>
+        <a href="/contacto/" class="btn">ESCRÍBENOS</a>
       </div>
     </section>
 
@@ -178,7 +175,7 @@
     <div class="footer-cols">
       <div class="footer-brand">
         <img src="/assets/batres-horizontal-light.svg" alt="Batres Company Limited">
-        <p>Automatización como infraestructura. Confiable, medible y tuya.</p>
+        <p>Automatización como infraestructura. Nosotros la operamos; tú recibes los resultados.</p>
       </div>
       <nav class="footer-col" aria-label="Pie de página">
         <span class="col-label">ÍNDICE</span>
@@ -193,10 +190,10 @@
         <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener">CALENDLY / 30 MIN →</a>
       </div>
     </div>
-    <div class="footer-giant" aria-hidden="true" data-parallax="0.04" data-parallax-base="8%">BATRES</div>
+    <div class="footer-giant" aria-hidden="true">BATRES</div>
     <div class="footer-meta">
       <span>© 2026 BATRES COMPANY LIMITED</span>
-      <span>DOC / BC-WEB · REV 02 / 2026 · STATUS / LIVE</span>
+      <span>DOC / BC-WEB · REV 03 / 2026 · STATUS / LIVE</span>
       <span>AUTOMATIZA LO REPETITIVO · AMPLIFICA LO HUMANO</span>
     </div>
   </footer>

@@ -4,15 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nosotros — Batres Company Limited</title>
-  <meta name="description" content="Batres Company Limited es una firma de automatización con IA. Auditamos procesos, construimos a la medida sobre tu infraestructura y te entregamos la propiedad completa.">
+  <meta name="description" content="Batres Company Limited es una firma de automatización con IA. Auditamos procesos, construimos a la medida y operamos el sistema por ti: mantenimiento, monitoreo y mejoras continuas.">
   <link rel="canonical" href="https://batrescompany.tech/nosotros/">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Batres Company Limited">
   <meta property="og:locale" content="es_MX">
   <meta property="og:title" content="Nosotros — Batres Company Limited">
-  <meta property="og:description" content="Ingeniería, no magia. Precisión, propiedad y velocidad — sin caja negra, sin dependencia.">
+  <meta property="og:description" content="Ingeniería, no magia. Construimos y operamos tu automatización; tú recibes los resultados.">
   <meta property="og:url" content="https://batrescompany.tech/nosotros/">
+  <meta property="og:image" content="https://batrescompany.tech/assets/og-hero.jpg">
 
   <link rel="icon" type="image/svg+xml" href="/assets/batres-icon.svg">
 
@@ -22,10 +23,14 @@
 
   <link rel="stylesheet" href="/css/styles.css">
 
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script defer src="/js/site.js"></script>
 </head>
-<body>
+<body class="on-dark">
 
+  <div class="grain" aria-hidden="true"></div>
   <div class="progress-bar" aria-hidden="true"></div>
 
   <!-- ================= HEADER ================= -->
@@ -68,80 +73,116 @@
 
   <main>
 
-    <!-- ================= PAGE HEADER ================= -->
-    <section class="page-head">
-      <div>
+    <!-- ================= PAGE HEAD — concrete hall backdrop ================= -->
+    <section class="page-head backdrop" data-act="dark">
+      <div class="backdrop-img" style="background-image:url('/assets/gen/nosotros-01.webp')" aria-hidden="true"></div>
+      <div class="backdrop-content">
         <div class="kicker" data-reveal>§ 02 — NOSOTROS</div>
-        <h1 data-reveal data-reveal-delay="80">Ingeniería,<br>no <em class="rust">magia.</em></h1>
+        <h1 data-split>Ingeniería,<br>no <em class="rust">magia.</em></h1>
+        <p class="page-intro" data-reveal data-reveal-delay="200">Batres Company Limited es una firma de automatización con IA. Auditamos procesos, construimos soluciones a la medida y las operamos por ti: mantenimiento, monitoreo y mejoras continuas. Tu equipo solo recibe los resultados. Sin caja negra, sin promesas de magia.</p>
       </div>
-      <p class="page-intro" data-reveal data-reveal-delay="160">Batres Company Limited es una firma de automatización con IA. Auditamos procesos, construimos soluciones a la medida sobre tu infraestructura y te entregamos la propiedad completa del sistema. Sin caja negra, sin dependencia, sin promesas de magia.</p>
     </section>
 
     <!-- ================= § 02.1 PILARES ================= -->
-    <section class="sec" aria-labelledby="pilares-heading">
+    <section class="sec" data-act="light" aria-labelledby="pilares-heading">
       <div class="sec-head">
         <h2 id="pilares-heading" data-reveal>§ 02.1 — PILARES</h2>
         <span class="sec-note" data-reveal>TRES VALORES · SIN EXCEPCIONES</span>
       </div>
+      <div class="rule" data-reveal="line"></div>
       <div class="pillars">
-        <div class="pillar" data-reveal>
+        <div class="pillar">
           <span class="pillar-num">P-01</span>
-          <h3>Precisión</h3>
-          <p>Cada automatización se construye a tolerancia: medible, versionada y probada antes de tocar producción.</p>
+          <div>
+            <h3>Precisión</h3>
+            <p>Cada automatización se construye a tolerancia: medible, versionada y probada antes de tocar producción.</p>
+          </div>
         </div>
-        <div class="pillar" data-reveal data-reveal-delay="80">
+        <div class="pillar">
           <span class="pillar-num">P-02</span>
-          <h3>Propiedad</h3>
-          <p>El sistema queda en tu infraestructura y a tu nombre. Documentación completa, transferencia total, cero caja negra.</p>
+          <div>
+            <h3>Operación</h3>
+            <p>Un sistema es una máquina: sin mantenimiento, falla. Nosotros cargamos con esa parte — monitoreo, actualizaciones, imprevistos — para que tu equipo solo use los resultados.</p>
+          </div>
         </div>
-        <div class="pillar" data-reveal data-reveal-delay="160">
+        <div class="pillar">
           <span class="pillar-num">P-03</span>
-          <h3>Velocidad</h3>
-          <p>Semanas, no meses. Verás un prototipo funcionando con tus datos antes de comprometer un proyecto completo.</p>
+          <div>
+            <h3>Velocidad</h3>
+            <p>Semanas, no meses. Verás un prototipo funcionando con tus datos antes de comprometer un proyecto completo.</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ================= § 02.2 PROCESO ================= -->
-    <section class="sec sec--paper" aria-labelledby="proceso-heading">
+    <section class="sec" data-act="light" aria-labelledby="proceso-heading">
       <div class="sec-head">
         <h2 id="proceso-heading" data-reveal>§ 02.2 — PROCESO</h2>
-        <span class="sec-note" data-reveal>TRES FASES · UNA ENTREGA</span>
+        <span class="sec-note" data-reveal>TRES FASES · OPERACIÓN CONTINUA</span>
       </div>
+      <div class="rule" data-reveal="line"></div>
+      <div class="timeline">
+        <div class="timeline-progress" aria-hidden="true"></div>
 
-      <div class="phase" data-reveal>
-        <div class="phase-num">01</div>
-        <div>
-          <h3>Auditoría de tu flujo</h3>
-          <p>Entrevistamos a tu equipo, observamos la operación real y producimos un mapa del proceso con cada paso manual marcado y cuantificado en horas por semana.</p>
+        <div class="phase">
+          <div class="phase-num">01</div>
+          <div>
+            <h3 data-reveal>Auditoría de tu flujo</h3>
+            <p data-reveal data-reveal-delay="80">Entrevistamos a tu equipo, observamos la operación real y producimos un mapa del proceso con cada paso manual marcado y cuantificado en horas por semana.</p>
+          </div>
+          <div class="phase-spec" data-reveal data-reveal-delay="140">FASE / DIAGNÓSTICO<br>DURACIÓN / 1 SEMANA<br>ENTREGA / MAPA + COTIZACIÓN</div>
         </div>
-        <div class="phase-spec">FASE / DIAGNÓSTICO<br>DURACIÓN / 1 SEMANA<br>ENTREGA / MAPA + COTIZACIÓN</div>
-      </div>
 
-      <div class="phase" data-reveal>
-        <div class="phase-num">02</div>
-        <div>
-          <h3>Prototipo y automatización</h3>
-          <p>Construimos el pipeline sobre tu infraestructura y lo probamos con datos reales de tu operación. Iteramos contigo hasta que el sistema corre sin supervisión.</p>
+        <div class="phase">
+          <div class="phase-num">02</div>
+          <div>
+            <h3 data-reveal>Prototipo y automatización</h3>
+            <p data-reveal data-reveal-delay="80">Construimos el pipeline conectado a tus herramientas reales y lo probamos con datos de tu operación. Iteramos contigo hasta que el sistema corre sin supervisión.</p>
+          </div>
+          <div class="phase-spec" data-reveal data-reveal-delay="140">FASE / CONSTRUCCIÓN<br>DURACIÓN / 2–4 SEMANAS<br>ENTREGA / SISTEMA EN PRODUCCIÓN</div>
         </div>
-        <div class="phase-spec">FASE / CONSTRUCCIÓN<br>DURACIÓN / 2–4 SEMANAS<br>ENTREGA / SISTEMA EN PRODUCCIÓN</div>
-      </div>
 
-      <div class="phase" data-reveal>
-        <div class="phase-num">03</div>
-        <div>
-          <h3>Despliegue y transferencia</h3>
-          <p>Documentamos el sistema completo, capacitamos a tu equipo y te transferimos las credenciales y la propiedad. El sistema es tuyo desde el día uno.</p>
+        <div class="phase">
+          <div class="phase-num">03</div>
+          <div>
+            <h3 data-reveal>Despliegue y operación</h3>
+            <p data-reveal data-reveal-delay="80">Documentamos el sistema completo, capacitamos a tu equipo y nos quedamos al volante: monitoreo, mantenimiento y mejoras continuas desde el día uno.</p>
+          </div>
+          <div class="phase-spec" data-reveal data-reveal-delay="140">FASE / OPERACIÓN<br>DURACIÓN / CONTINUA<br>ENTREGA / RESULTADOS</div>
         </div>
-        <div class="phase-spec">FASE / HANDOVER<br>DURACIÓN / 1 SEMANA<br>ENTREGA / DOCS + PROPIEDAD</div>
       </div>
     </section>
 
-    <!-- ================= § 02.3 FUNDADOR ================= -->
-    <section class="founder" aria-labelledby="fundador-heading">
+    <!-- ================= § 02.3 MANTENIMIENTO ================= -->
+    <section class="sec" data-act="light" aria-labelledby="mantenimiento-heading">
+      <div class="sec-head">
+        <h2 id="mantenimiento-heading" data-reveal>§ 02.3 — EL MANTENIMIENTO, SIN RODEOS</h2>
+        <span class="sec-note" data-reveal>DOS MODOS · CERO LETRA CHICA</span>
+      </div>
+      <div class="rule" data-reveal="line"></div>
+      <p class="sec-intro" data-reveal>Un sistema de automatización es una máquina. Y como toda máquina, sin mantenimiento se degrada: las APIs cambian, los formatos cambian, tu negocio cambia. Por eso no vendemos software y adiós — operamos lo que construimos.</p>
+      <div class="modes">
+        <div class="mode mode--featured" data-reveal>
+          <div class="mode-tag">RECOMENDADO</div>
+          <h3>Gestionado</h3>
+          <p>Implementación + cuota mensual. Nosotros operamos, monitoreamos, actualizamos y mejoramos el sistema todos los días. Tú dices qué quieres que pase; nosotros hacemos que pase. Como el administrador de un edificio: tú recibes los resultados, nosotros lidiamos con todo lo demás.</p>
+          <div class="mode-spec">PAGO / IMPLEMENTACIÓN + MENSUALIDAD<br>OPERACIÓN / NUESTRA<br>TU PARTE / RECIBIR RESULTADOS</div>
+        </div>
+        <div class="mode" data-reveal data-reveal-delay="100">
+          <div class="mode-tag">DISPONIBLE</div>
+          <h3>Entrega total</h3>
+          <p>Solo implementación. Te entregamos el sistema completo — documentación, credenciales, capacitación — y lo operas tú. Lo ofrecemos con una advertencia honesta: mantener un sistema exige atención técnica constante, y revivir uno caído suele costar más que mantenerlo sano.</p>
+          <div class="mode-spec">PAGO / SOLO IMPLEMENTACIÓN<br>OPERACIÓN / TUYA<br>TU PARTE / TODO EL MANTENIMIENTO</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= § 02.4 FUNDADOR ================= -->
+    <section class="founder" data-act="dark" aria-labelledby="fundador-heading">
       <div>
-        <div class="kicker" data-reveal>§ 02.3 — FUNDADOR</div>
-        <h2 id="fundador-heading" data-reveal data-reveal-delay="60">Sebastián Batres</h2>
+        <div class="kicker" data-reveal>§ 02.4 — FUNDADOR</div>
+        <h2 id="fundador-heading" data-split>Sebastián Batres</h2>
         <div class="founder-title" data-reveal data-reveal-delay="100">FUNDADOR · INGENIERÍA DE AUTOMATIZACIÓN</div>
       </div>
       <div class="spec-list" data-reveal data-reveal-delay="140">
@@ -157,7 +198,7 @@
     <div class="footer-cols">
       <div class="footer-brand">
         <img src="/assets/batres-horizontal-light.svg" alt="Batres Company Limited">
-        <p>Automatización como infraestructura. Confiable, medible y tuya.</p>
+        <p>Automatización como infraestructura. Nosotros la operamos; tú recibes los resultados.</p>
       </div>
       <nav class="footer-col" aria-label="Pie de página">
         <span class="col-label">ÍNDICE</span>
@@ -172,10 +213,10 @@
         <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener">CALENDLY / 30 MIN →</a>
       </div>
     </div>
-    <div class="footer-giant" aria-hidden="true" data-parallax="0.04" data-parallax-base="8%">BATRES</div>
+    <div class="footer-giant" aria-hidden="true">BATRES</div>
     <div class="footer-meta">
       <span>© 2026 BATRES COMPANY LIMITED</span>
-      <span>DOC / BC-WEB · REV 02 / 2026 · STATUS / LIVE</span>
+      <span>DOC / BC-WEB · REV 03 / 2026 · STATUS / LIVE</span>
       <span>AUTOMATIZA LO REPETITIVO · AMPLIFICA LO HUMANO</span>
     </div>
   </footer>

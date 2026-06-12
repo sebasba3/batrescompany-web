@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Batres Company Limited — Automatización con IA</title>
-  <meta name="description" content="Auditamos tus procesos, eliminamos cuellos de botella manuales y construimos automatización con IA que opera como infraestructura: confiable, medible y tuya.">
+  <meta name="description" content="Auditamos tus procesos, eliminamos cuellos de botella manuales y construimos automatización con IA que opera como infraestructura: confiable, medible y mantenida por nosotros.">
   <link rel="canonical" href="https://batrescompany.tech/">
 
   <meta property="og:type" content="website">
@@ -13,6 +13,7 @@
   <meta property="og:title" content="Batres Company Limited — Automatización con IA">
   <meta property="og:description" content="Automatiza lo repetitivo. Amplifica lo humano. Automatización con IA para empresas B2B en México.">
   <meta property="og:url" content="https://batrescompany.tech/">
+  <meta property="og:image" content="https://batrescompany.tech/assets/og-hero.jpg">
 
   <link rel="icon" type="image/svg+xml" href="/assets/batres-icon.svg">
 
@@ -21,15 +22,34 @@
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="/css/styles.css">
+  <noscript><style>.preloader { display: none; }</style></noscript>
 
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script defer src="/js/site.js"></script>
   <script defer src="/js/scenes.js"></script>
   <script defer src="/js/monolith.js"></script>
 </head>
-<body>
+<body class="on-dark">
 
+  <div class="grain" aria-hidden="true"></div>
   <div class="progress-bar" aria-hidden="true"></div>
+
+  <!-- ================= PRELOADER ================= -->
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader-foot">
+      <span>BATRES COMPANY LIMITED</span>
+      <span>AUTOMATIZACIÓN COMO INFRAESTRUCTURA</span>
+    </div>
+    <div class="preloader-word"><span>BATRES</span></div>
+    <div class="preloader-foot">
+      <span class="preloader-count">000</span>
+      <span>CARGANDO / SISTEMA</span>
+    </div>
+    <div class="preloader-bar"></div>
+  </div>
 
   <!-- ================= HEADER ================= -->
   <header class="site-header" role="banner">
@@ -71,45 +91,23 @@
 
   <main>
 
-    <!-- ================= HERO ================= -->
-    <section class="hero">
-      <div>
+    <!-- ================= HERO — monolith world ================= -->
+    <section class="hero" data-act="dark">
+      <div class="hero-canvas" aria-hidden="true"></div>
+      <div class="hero-inner">
         <div class="kicker" data-reveal>§ 00 — AUTOMATIZACIÓN COMO INFRAESTRUCTURA</div>
-        <h1 data-reveal data-reveal-delay="80">Automatiza lo <em class="rust">repetitivo.</em><br>Amplifica lo humano.</h1>
-        <p class="hero-sub" data-reveal data-reveal-delay="160">Auditamos tus procesos, eliminamos los cuellos de botella manuales y construimos automatización que opera como infraestructura: confiable, medible y tuya.</p>
-        <div class="btn-row" data-reveal data-reveal-delay="240">
+        <h1 data-split>Automatiza lo <em class="rust">repetitivo.</em><br>Amplifica lo humano.</h1>
+        <p class="hero-sub" data-reveal data-reveal-delay="500">Auditamos tus procesos, eliminamos los cuellos de botella manuales y construimos automatización que opera como infraestructura: confiable, medible y mantenida por nosotros.</p>
+        <div class="btn-row" data-reveal data-reveal-delay="650">
           <a href="/contacto/" class="btn btn--rust">HABLEMOS →</a>
-          <a href="/servicios/" class="btn btn--ghost">VER SERVICIOS</a>
+          <a href="/servicios/" class="btn">VER SERVICIOS</a>
         </div>
       </div>
-
-      <figure class="fig hero-fig" data-reveal data-reveal-delay="120">
-        <div class="fig-frame" data-scene="monolith">
-          <div class="scene-canvas-host"></div>
-          <div class="clearspace"></div>
-          <div class="fig-ann fig-ann--tl">FIG. 01 — BLOQUE / COSTURA</div>
-          <div class="fig-ann fig-ann--br">WEBGL · INTERACTIVO</div>
-        </div>
-        <figcaption class="fig-cap">
-          <span>UN BLOQUE. UNA COSTURA.</span>
-          <span>MUÉVETE SOBRE LA FIGURA</span>
-        </figcaption>
-      </figure>
-    </section>
-
-    <!-- ================= META STRIP ================= -->
-    <section class="meta-strip" aria-label="Resumen">
-      <div>
-        <div class="meta-label">OPERACIÓN</div>
-        <div class="meta-value">Sistemas que corren 24/7</div>
-      </div>
-      <div>
-        <div class="meta-label">ENTREGA</div>
-        <div class="meta-value">Semanas, no meses</div>
-      </div>
-      <div>
-        <div class="meta-label">PROPIEDAD</div>
-        <div class="meta-value">Sobre tu infraestructura</div>
+      <div class="hero-scroll-hint">DESPLAZA PARA ENTRAR</div>
+      <div class="hero-meta">
+        <span>OPERACIÓN<b>24 / 7</b></span>
+        <span>ENTREGA<b>SEMANAS</b></span>
+        <span>MANTENIMIENTO<b>NUESTRO</b></span>
       </div>
     </section>
 
@@ -121,93 +119,95 @@
       </div>
     </section>
 
-    <!-- ================= § 01 SERVICIOS PREVIEW ================= -->
-    <section class="sec" aria-labelledby="servicios-heading">
+    <!-- ================= § 01 MANIFIESTO ================= -->
+    <section class="sec statement" data-act="light" aria-labelledby="manifiesto-heading">
+      <div class="kicker" data-reveal>§ 01 — EL MODELO</div>
+      <h2 class="statement-line" id="manifiesto-heading" data-split>No vendemos software y adiós. Construimos sistemas que trabajan por ti — y los <em class="rust">mantenemos vivos.</em></h2>
+      <p data-reveal>Tú dices qué quieres que pase. Nosotros construimos el sistema, lo operamos, lo vigilamos y lo mejoramos — todos los días. Como el administrador de un edificio: tú recibes los resultados, nosotros lidiamos con todo lo demás.</p>
+    </section>
+
+    <!-- ================= § 02 SERVICIOS INDEX ================= -->
+    <section class="sec svc-index" data-act="light" aria-labelledby="servicios-heading">
       <div class="sec-head">
-        <h2 id="servicios-heading" data-reveal>§ 01 — SERVICIOS</h2>
+        <h2 id="servicios-heading" data-reveal>§ 02 — SERVICIOS</h2>
         <span class="sec-note" data-reveal>CUATRO DISCIPLINAS · UNA ESTRUCTURA</span>
       </div>
       <div class="rule" data-reveal="line"></div>
-      <div class="svc-grid">
 
-        <a href="/servicios/" class="svc-card" data-reveal>
-          <span class="svc-num">01</span>
-          <span class="svc-title">Automatización de Flujos</span>
-          <span class="svc-desc">Cualquier flujo repetitivo, automatizado: WhatsApp → Calendar, email → CRM, formularios → hojas de cálculo.</span>
-          <span class="svc-foot"><span class="svc-tags">PROCESS · INTEGRATION · N8N</span><span class="svc-arrow">→</span></span>
-        </a>
-
-        <a href="/servicios/" class="svc-card" data-reveal data-reveal-delay="60">
-          <span class="svc-num">02</span>
-          <span class="svc-title">Agentes de IA a Medida</span>
-          <span class="svc-desc">Agentes autónomos que atienden, agendan, monitorean y deciden — 24/7, sin intervención humana.</span>
-          <span class="svc-foot"><span class="svc-tags">AGENTS · LLM · APIS</span><span class="svc-arrow">→</span></span>
-        </a>
-
-        <a href="/servicios/" class="svc-card" data-reveal data-reveal-delay="120">
-          <span class="svc-num">03</span>
-          <span class="svc-title">Integración de Sistemas</span>
-          <span class="svc-desc">CRM, ERP, comunicación y bases de datos en un ecosistema unificado. Sin silos, sin doble captura.</span>
-          <span class="svc-foot"><span class="svc-tags">API · SYNC · OPS</span><span class="svc-arrow">→</span></span>
-        </a>
-
-        <a href="/servicios/" class="svc-card" data-reveal data-reveal-delay="180">
-          <span class="svc-num">04</span>
-          <span class="svc-title">Procesamiento de Datos con IA</span>
-          <span class="svc-desc">Documentos, emails y reportes no estructurados → información estructurada y accionable.</span>
-          <span class="svc-foot"><span class="svc-tags">LLM · ETL · ANALYSIS</span><span class="svc-arrow">→</span></span>
-        </a>
-
-      </div>
+      <a href="/servicios/" class="svc-row" data-preview="/assets/gen/svc-01.webp">
+        <span class="svc-num">01</span>
+        <span class="svc-title">Automatización de Flujos</span>
+        <span class="svc-tags">PROCESS · INTEGRATION · N8N</span>
+        <span class="svc-arrow">→</span>
+      </a>
+      <a href="/servicios/" class="svc-row" data-preview="/assets/gen/svc-02.webp">
+        <span class="svc-num">02</span>
+        <span class="svc-title">Agentes de IA a Medida</span>
+        <span class="svc-tags">AGENTS · LLM · APIS</span>
+        <span class="svc-arrow">→</span>
+      </a>
+      <a href="/servicios/" class="svc-row" data-preview="/assets/gen/svc-03.webp">
+        <span class="svc-num">03</span>
+        <span class="svc-title">Integración de Sistemas</span>
+        <span class="svc-tags">API · SYNC · OPS</span>
+        <span class="svc-arrow">→</span>
+      </a>
+      <a href="/servicios/" class="svc-row" data-preview="/assets/gen/svc-04.webp">
+        <span class="svc-num">04</span>
+        <span class="svc-title">Procesamiento de Datos con IA</span>
+        <span class="svc-tags">LLM · ETL · ANALYSIS</span>
+        <span class="svc-arrow">→</span>
+      </a>
     </section>
 
-    <!-- ================= § 02 MÉTODO ================= -->
-    <section class="sec" aria-labelledby="metodo-heading">
+    <!-- ================= § 03 MÉTODO ================= -->
+    <section class="sec" data-act="light" aria-labelledby="metodo-heading">
       <div class="sec-head">
-        <h2 id="metodo-heading" data-reveal>§ 02 — MÉTODO</h2>
+        <h2 id="metodo-heading" data-reveal>§ 03 — MÉTODO</h2>
         <a href="/nosotros/" class="sec-note" data-reveal>CÓMO TRABAJAMOS →</a>
       </div>
-      <div class="method-grid">
-        <div data-reveal>
-          <div class="step-num">01</div>
-          <h3>Auditoría</h3>
-          <p>Mapeamos tu flujo de trabajo de extremo a extremo y localizamos cada paso manual que se repite.</p>
+      <div class="rule" data-reveal="line"></div>
+      <div class="method">
+        <div class="method-side">
+          <h3 data-split>De la auditoría a la <em class="rust">operación.</em></h3>
+          <p data-reveal>Tres fases. La última no termina: el sistema queda corriendo y nosotros al volante.</p>
         </div>
-        <div data-reveal data-reveal-delay="80">
-          <div class="step-num">02</div>
-          <h3>Prototipo</h3>
-          <p>Construimos sobre tu infraestructura real y probamos con datos reales. Nada de demos de juguete.</p>
-        </div>
-        <div data-reveal data-reveal-delay="160">
-          <div class="step-num">03</div>
-          <h3>Entrega</h3>
-          <p>Desplegamos, documentamos y te transferimos la propiedad. Sin dependencia. Sin caja negra.</p>
+        <div class="method-steps">
+          <div class="method-step">
+            <div class="step-num">01</div>
+            <div>
+              <h4 data-reveal>Auditoría</h4>
+              <p data-reveal data-reveal-delay="80">Mapeamos tu flujo de trabajo de extremo a extremo y localizamos cada paso manual que se repite.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">02</div>
+            <div>
+              <h4 data-reveal>Prototipo</h4>
+              <p data-reveal data-reveal-delay="80">Construimos el sistema conectado a tus herramientas reales y probamos con datos reales. Nada de demos de juguete.</p>
+            </div>
+          </div>
+          <div class="method-step">
+            <div class="step-num">03</div>
+            <div>
+              <h4 data-reveal>Operación</h4>
+              <p data-reveal data-reveal-delay="80">Desplegamos, documentamos y nos quedamos operando el sistema: monitoreo, mantenimiento y mejoras continuas. Tú solo ves resultados.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- ================= § 03 DARK BAND — PROCESS SCENE + CTA ================= -->
-    <section class="sec band--dark" aria-labelledby="proceso-heading">
-      <div class="sec-head">
-        <h2 id="proceso-heading" data-reveal>§ 03 — EL PROCESO, EN MOVIMIENTO</h2>
-        <span class="sec-note" data-reveal>FIG. 02 · WEBGL · TIEMPO REAL</span>
-      </div>
-
-      <div class="fig process-fig" data-scene="process" data-reveal>
-        <div class="scene-canvas-host"></div>
-        <div class="clearspace"></div>
-        <div class="fig-ann fig-ann--tl">FIG. 02 — ENSAMBLE</div>
-        <div class="fig-ann fig-ann--tr">EN VIVO</div>
-      </div>
-
-      <div class="band-cta">
-        <h3 data-reveal>¿Listo para<br>automatizar<br>lo <em class="rust">repetitivo</em>?</h3>
-        <div class="band-cta-col" data-reveal data-reveal-delay="100">
-          <p class="band-copy">Una llamada de 30 minutos. Tú describes el proceso; nosotros te decimos si se puede automatizar y cuánto cuesta.</p>
-          <div class="btn-row">
-            <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--rust">AGENDAR 30 MIN →</a>
-            <a href="/contacto/" class="btn btn--ghost-light">ESCRÍBENOS</a>
-          </div>
+    <!-- ================= § 04 PROCESS BAND + CTA ================= -->
+    <section class="band" data-act="dark" data-scene="process" aria-labelledby="proceso-heading">
+      <div class="band-canvas" aria-hidden="true"></div>
+      <div class="band-content">
+        <div class="band-kicker" data-reveal>§ 04 — EL PROCESO, EN MOVIMIENTO</div>
+        <h3 id="proceso-heading" data-split>¿Listo para automatizar lo <em class="rust">repetitivo?</em></h3>
+        <p class="band-copy" data-reveal>Una llamada de 30 minutos. Tú describes el proceso; nosotros te decimos si se puede automatizar y cuánto cuesta.</p>
+        <div class="btn-row" data-reveal data-reveal-delay="100">
+          <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--rust">AGENDAR 30 MIN →</a>
+          <a href="/contacto/" class="btn">ESCRÍBENOS</a>
         </div>
       </div>
     </section>
@@ -219,7 +219,7 @@
     <div class="footer-cols">
       <div class="footer-brand">
         <img src="/assets/batres-horizontal-light.svg" alt="Batres Company Limited">
-        <p>Automatización como infraestructura. Confiable, medible y tuya.</p>
+        <p>Automatización como infraestructura. Nosotros la operamos; tú recibes los resultados.</p>
       </div>
       <nav class="footer-col" aria-label="Pie de página">
         <span class="col-label">ÍNDICE</span>
@@ -234,10 +234,10 @@
         <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener">CALENDLY / 30 MIN →</a>
       </div>
     </div>
-    <div class="footer-giant" aria-hidden="true" data-parallax="0.04" data-parallax-base="8%">BATRES</div>
+    <div class="footer-giant" aria-hidden="true">BATRES</div>
     <div class="footer-meta">
       <span>© 2026 BATRES COMPANY LIMITED</span>
-      <span>DOC / BC-WEB · REV 02 / 2026 · STATUS / LIVE</span>
+      <span>DOC / BC-WEB · REV 03 / 2026 · STATUS / LIVE</span>
       <span>AUTOMATIZA LO REPETITIVO · AMPLIFICA LO HUMANO</span>
     </div>
   </footer>

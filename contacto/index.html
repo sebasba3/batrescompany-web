@@ -13,6 +13,7 @@
   <meta property="og:title" content="Contacto — Batres Company Limited">
   <meta property="og:description" content="Cuéntanos el cuello de botella. Respuesta en menos de 24 horas.">
   <meta property="og:url" content="https://batrescompany.tech/contacto/">
+  <meta property="og:image" content="https://batrescompany.tech/assets/og-hero.jpg">
 
   <link rel="icon" type="image/svg+xml" href="/assets/batres-icon.svg">
 
@@ -22,10 +23,14 @@
 
   <link rel="stylesheet" href="/css/styles.css">
 
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
   <script defer src="/js/site.js"></script>
 </head>
-<body>
+<body class="on-dark">
 
+  <div class="grain" aria-hidden="true"></div>
   <div class="progress-bar" aria-hidden="true"></div>
 
   <!-- ================= HEADER ================= -->
@@ -68,15 +73,18 @@
 
   <main>
 
-    <!-- ================= PAGE HEADER ================= -->
-    <section class="page-head page-head--single">
-      <div class="kicker" data-reveal>§ 03 — CONTACTO</div>
-      <h1 data-reveal data-reveal-delay="80" style="max-width:900px; margin-bottom:20px;">Cuéntanos el <em class="rust">cuello de botella.</em></h1>
-      <p class="page-intro" data-reveal data-reveal-delay="160" style="max-width:520px;">Describe el proceso más repetitivo de tu operación. Respondemos en menos de 24 horas, con una evaluación honesta de si conviene automatizarlo.</p>
+    <!-- ================= PAGE HEAD — seam macro backdrop ================= -->
+    <section class="page-head backdrop" data-act="dark">
+      <div class="backdrop-img" style="background-image:url('/assets/gen/hero-02.webp')" aria-hidden="true"></div>
+      <div class="backdrop-content">
+        <div class="kicker" data-reveal>§ 03 — CONTACTO</div>
+        <h1 data-split>Cuéntanos el <em class="rust">cuello de botella.</em></h1>
+        <p class="page-intro" data-reveal data-reveal-delay="200">Describe el proceso más repetitivo de tu operación. Respondemos en menos de 24 horas, con una evaluación honesta de si conviene automatizarlo.</p>
+      </div>
     </section>
 
     <!-- ================= FORM + DIRECT ================= -->
-    <section class="contact-grid">
+    <section class="contact-grid" data-act="light">
 
       <form class="contact-form" id="contact-form" data-reveal novalidate>
         <input type="hidden" name="access_key" value="def84074-a543-432f-95df-ce9ef80e1b54">
@@ -112,14 +120,14 @@
         </div>
       </form>
 
-      <div class="contact-direct" data-reveal data-reveal-delay="100">
+      <div class="contact-direct" data-reveal data-reveal-delay="120">
         <div>
           <div class="block-label">CORREO DIRECTO</div>
           <a href="mailto:sebastian@batrescompany.tech" class="contact-email">sebastian@batrescompany.tech</a>
         </div>
         <div>
           <div class="block-label">LLAMADA DE DIAGNÓSTICO</div>
-          <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--ghost">AGENDAR 30 MIN →</a>
+          <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn">AGENDAR 30 MIN →</a>
           <div class="micro-note">CALENDLY · SE ABRE EN PESTAÑA NUEVA</div>
         </div>
         <div class="contact-spec">
@@ -138,7 +146,7 @@
     <div class="footer-cols">
       <div class="footer-brand">
         <img src="/assets/batres-horizontal-light.svg" alt="Batres Company Limited">
-        <p>Automatización como infraestructura. Confiable, medible y tuya.</p>
+        <p>Automatización como infraestructura. Nosotros la operamos; tú recibes los resultados.</p>
       </div>
       <nav class="footer-col" aria-label="Pie de página">
         <span class="col-label">ÍNDICE</span>
@@ -153,10 +161,10 @@
         <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener">CALENDLY / 30 MIN →</a>
       </div>
     </div>
-    <div class="footer-giant" aria-hidden="true" data-parallax="0.04" data-parallax-base="8%">BATRES</div>
+    <div class="footer-giant" aria-hidden="true">BATRES</div>
     <div class="footer-meta">
       <span>© 2026 BATRES COMPANY LIMITED</span>
-      <span>DOC / BC-WEB · REV 02 / 2026 · STATUS / LIVE</span>
+      <span>DOC / BC-WEB · REV 03 / 2026 · STATUS / LIVE</span>
       <span>AUTOMATIZA LO REPETITIVO · AMPLIFICA LO HUMANO</span>
     </div>
   </footer>
