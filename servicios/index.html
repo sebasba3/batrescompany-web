@@ -26,7 +26,6 @@
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script defer src="/js/site.js"></script>
   <script defer src="/js/scenes.js"></script>
 </head>
@@ -73,7 +72,7 @@
     </div>
   </div>
 
-  <!-- persistent WebGL stage behind the chapters -->
+  <!-- persistent atmospheric stage behind the chapters (layers built by scenes.js) -->
   <div class="svc-stage" aria-hidden="true"></div>
 
   <div class="chapter-rail" aria-hidden="true">
@@ -88,6 +87,7 @@
         <div>
           <div class="kicker" data-reveal>§ 01 — SERVICIOS</div>
           <h1 data-split>Cuatro disciplinas.<br>Una sola <em class="rust">estructura.</em></h1>
+          <p class="page-intro" data-reveal data-reveal-delay="150">Si tu operación tiene trabajo repetitivo, vive en alguna de estas cuatro. Cada sistema se construye a la medida de tu proceso — y nosotros lo operamos.</p>
         </div>
         <div class="index-col" data-reveal data-reveal-delay="200">
           01 / <b>AUTOMATIZACIÓN DE FLUJOS</b><br>
@@ -106,7 +106,8 @@
           <div class="chapter-copy">
             <span class="chapter-num" data-reveal>S-01 — FLUJOS</span>
             <h2 id="s1-heading" data-split>Automatización de Flujos</h2>
-            <p data-reveal>Mapeamos tus procesos de extremo a extremo y reemplazamos los pasos manuales con pipelines inteligentes. WhatsApp → Calendar, email → CRM, formularios → hojas de cálculo — cualquier flujo repetitivo, automatizado.</p>
+            <p data-reveal>El trabajo que hoy viaja a mano entre herramientas — correos que se copian al CRM, mensajes que se vuelven citas, formularios que se pasan a hojas de cálculo — corre solo, sin errores y sin que nadie lo empuje.</p>
+            <p class="chapter-ex" data-reveal>EN LA PRÁCTICA / Una distribuidora pasa los pedidos de WhatsApp directo a su sistema, sin capturar nada a mano.</p>
             <div class="chapter-tags" data-reveal>PROCESS · INTEGRATION · N8N</div>
           </div>
           <figure class="chapter-plate" data-reveal>
@@ -120,7 +121,8 @@
           <div class="chapter-copy">
             <span class="chapter-num" data-reveal>S-02 — AGENTES</span>
             <h2 id="s2-heading" data-split>Agentes de IA a Medida</h2>
-            <p data-reveal>Agentes autónomos que atienden consultas de clientes, agendan citas, monitorean sistemas y toman decisiones — operando 24/7, conectados a tus herramientas existentes.</p>
+            <p data-reveal>Un agente entrenado en tu negocio que atiende consultas, agenda citas y resuelve lo frecuente — conectado a tus herramientas reales y trabajando a cualquier hora, también cuando tu equipo duerme.</p>
+            <p class="chapter-ex" data-reveal>EN LA PRÁCTICA / Las preguntas de clientes de las 2 a.m. se responden en segundos, y la cita queda agendada en el calendario real.</p>
             <div class="chapter-tags" data-reveal>AGENTS · LLM · APIS</div>
           </div>
           <figure class="chapter-plate" data-reveal>
@@ -134,7 +136,8 @@
           <div class="chapter-copy">
             <span class="chapter-num" data-reveal>S-03 — INTEGRACIÓN</span>
             <h2 id="s3-heading" data-split>Integración de Sistemas</h2>
-            <p data-reveal>Conecta tu CRM, ERP, herramientas de comunicación y bases de datos en un ecosistema unificado — eliminando silos de datos y duplicación manual de información en toda tu operación.</p>
+            <p data-reveal>Tu CRM, tu facturación, tu inventario y tu comunicación dejan de vivir en islas. Conectamos lo que ya usas en un solo ecosistema: un dato se captura una vez y aparece donde se necesita.</p>
+            <p class="chapter-ex" data-reveal>EN LA PRÁCTICA / El CRM, la facturación y el inventario dejan de pelearse: un solo dato, en todos lados, siempre al día.</p>
             <div class="chapter-tags" data-reveal>API · SYNC · OPS</div>
           </div>
           <figure class="chapter-plate" data-reveal>
@@ -148,7 +151,8 @@
           <div class="chapter-copy">
             <span class="chapter-num" data-reveal>S-04 — DATOS</span>
             <h2 id="s4-heading" data-split>Procesamiento de Datos con IA</h2>
-            <p data-reveal>Transforma datos no estructurados — documentos, emails, reportes — en información estructurada y accionable usando modelos de lenguaje y pipelines de extracción personalizados.</p>
+            <p data-reveal>Los documentos que nadie tiene tiempo de leer — facturas, contratos, reportes, correos — se convierten en datos limpios y accionables, extraídos por modelos de lenguaje con reglas de tu negocio.</p>
+            <p class="chapter-ex" data-reveal>EN LA PRÁCTICA / Cien facturas en PDF se vuelven una tabla limpia antes de que termine el café.</p>
             <div class="chapter-tags" data-reveal>LLM · ETL · ANALYSIS</div>
           </div>
           <figure class="chapter-plate" data-reveal>
@@ -161,10 +165,13 @@
 
     <!-- ================= CTA ================= -->
     <section class="cta-band" data-act="dark">
-      <h2 data-split>Cuéntanos tu proceso más <em class="rust">repetitivo.</em></h2>
-      <div class="btn-row" data-reveal>
-        <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--rust">AGENDAR 30 MIN →</a>
-        <a href="/contacto/" class="btn">ESCRÍBENOS</a>
+      <video class="cta-video" src="/assets/gen/vid-cta.mp4" poster="/assets/gen/vid-cta-poster.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+      <div class="cta-content">
+        <h2 data-split>Cuéntanos tu proceso más <em class="rust">repetitivo.</em></h2>
+        <div class="btn-row" data-reveal>
+          <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--rust">AGENDAR 30 MIN →</a>
+          <a href="/contacto/" class="btn">ESCRÍBENOS</a>
+        </div>
       </div>
     </section>
 
@@ -190,10 +197,10 @@
         <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener">CALENDLY / 30 MIN →</a>
       </div>
     </div>
-    <div class="footer-giant" aria-hidden="true">BATRES</div>
+    <div class="footer-giant" aria-hidden="true"><span>AUTOMATIZA LO REPETITIVO.</span><span>AMPLIFICA LO <em>HUMANO.</em></span></div>
     <div class="footer-meta">
       <span>© 2026 BATRES COMPANY LIMITED</span>
-      <span>DOC / BC-WEB · REV 03 / 2026 · STATUS / LIVE</span>
+      <span>DOC / BC-WEB · REV 04 / 2026 · STATUS / LIVE</span>
       <span>AUTOMATIZA LO REPETITIVO · AMPLIFICA LO HUMANO</span>
     </div>
   </footer>

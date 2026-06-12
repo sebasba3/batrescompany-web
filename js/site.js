@@ -93,6 +93,17 @@
     });
   }
 
+  /* ---------- autoplay videos: pause offscreen, resume in view ---------- */
+  document.querySelectorAll('video[autoplay]').forEach(function (v) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        else v.pause();
+      });
+    }, { rootMargin: '120px' });
+    io.observe(v);
+  });
+
   /* ================= no-motion fallback ================= */
   if (!hasGsap || reduced) {
     var pl = document.querySelector('.preloader');
@@ -144,18 +155,24 @@
     if (instant) { gsap.set(document.body, vars); }
     else { gsap.to(document.body, Object.assign({ duration: 0.8, ease: 'power2.inOut', overwrite: 'auto' }, vars)); }
   }
-  var actSections = document.querySelectorAll('[data-act]');
+  window.BC.applyAct = applyAct;
+  window.BC.actOverride = null; /* set by monolith.js while the camera passes into light */
+  /* act detection via live rects (52% viewport line) — pin/spacer-proof,
+     unlike section ScrollTriggers whose positions break inside long pins */
+  var actSections = Array.prototype.slice.call(document.querySelectorAll('[data-act]'));
   if (actSections.length) {
     applyAct(actSections[0].getAttribute('data-act'), true);
-    actSections.forEach(function (sec) {
-      ScrollTrigger.create({
-        trigger: sec,
-        start: 'top 52%',
-        end: 'bottom 52%',
-        onToggle: function (self) {
-          if (self.isActive) applyAct(sec.getAttribute('data-act'));
-        }
-      });
+    gsap.ticker.add(function () {
+      var line = window.innerHeight * 0.52;
+      var winner = null;
+      for (var i = 0; i < actSections.length; i++) {
+        var r = actSections[i].getBoundingClientRect();
+        if (r.top <= line && r.bottom >= line) winner = actSections[i];
+      }
+      if (!winner) return;
+      var act = winner.getAttribute('data-act');
+      if (winner.classList.contains('hero') && window.BC.actOverride) act = window.BC.actOverride;
+      applyAct(act);
     });
   }
 
@@ -349,6 +366,30 @@
     }
   }
 
+  /* ---------- método: horizontal scroll deck (inicio) ---------- */
+  var hwrap = document.querySelector('.hscroll');
+  var htrack = document.querySelector('.hscroll-track');
+  if (hwrap && htrack) {
+    var hmm = gsap.matchMedia();
+    hmm.add('(min-width: 861px)', function () {
+      var sec = document.querySelector('.method-sec');
+      var dist = function () { return Math.max(0, htrack.scrollWidth - hwrap.clientWidth); };
+      var tween = gsap.to(htrack, {
+        x: function () { return -dist(); },
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top top',
+          end: function () { return '+=' + dist(); },
+          pin: true,
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        }
+      });
+      return function () { tween.scrollTrigger && tween.scrollTrigger.kill(); tween.kill(); gsap.set(htrack, { x: 0 }); };
+    });
+  }
+
   /* ---------- timeline progress (nosotros) ---------- */
   var tlProg = document.querySelector('.timeline-progress');
   if (tlProg) {
@@ -422,6 +463,7 @@
         onComplete: function () {
           pre.style.display = 'none';
           if (lenis) lenis.start();
+          ScrollTrigger.sort();
           ScrollTrigger.refresh();
         }
       });
@@ -436,6 +478,9 @@
     }
   }
 
-  /* ---------- refresh after full load ---------- */
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+  /* ---------- refresh after full load ----------
+     sort() first: pins are created after most triggers (script order),
+     and without re-sorting, refresh computes positions without the
+     pin spacers for everything created earlier. */
+  window.addEventListener('load', function () { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
 })();
