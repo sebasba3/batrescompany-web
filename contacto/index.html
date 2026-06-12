@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacto — Batres Company Limited</title>
+  <meta name="description" content="Cuéntanos el proceso más repetitivo de tu operación. Respondemos en menos de 24 horas con una evaluación honesta de si conviene automatizarlo.">
+  <link rel="canonical" href="https://batrescompany.tech/contacto/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Batres Company Limited">
+  <meta property="og:locale" content="es_MX">
+  <meta property="og:title" content="Contacto — Batres Company Limited">
+  <meta property="og:description" content="Cuéntanos el cuello de botella. Respuesta en menos de 24 horas.">
+  <meta property="og:url" content="https://batrescompany.tech/contacto/">
+
+  <link rel="icon" type="image/svg+xml" href="/assets/batres-icon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/styles.css">
+
+  <script defer src="/js/site.js"></script>
+</head>
+<body>
+
+  <div class="progress-bar" aria-hidden="true"></div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header" role="banner">
+    <a href="/" class="header-logo" aria-label="Batres Company Limited — Inicio">
+      <img src="/assets/batres-horizontal.svg" alt="Batres Company Limited">
+    </a>
+
+    <nav class="site-nav" aria-label="Principal">
+      <a href="/">INICIO</a>
+      <a href="/servicios/">SERVICIOS</a>
+      <a href="/nosotros/">NOSOTROS</a>
+      <a href="/contacto/" class="is-active">CONTACTO</a>
+    </nav>
+
+    <div class="header-meta">
+      <span>DOC / <span class="doc-code">BC-WEB-004</span></span>
+      <span data-clock>--:--:--</span>
+      <span class="lang-stub" title="Versión EN pendiente"><span class="lang-on">ES</span><span class="lang-sep">/</span><span class="lang-off">EN</span></span>
+    </div>
+
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- ================= MOBILE MENU ================= -->
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <nav aria-label="Menú móvil">
+      <a href="/"><span class="mm-num">00</span><span class="mm-label">Inicio</span></a>
+      <a href="/servicios/"><span class="mm-num">01</span><span class="mm-label">Servicios</span></a>
+      <a href="/nosotros/"><span class="mm-num">02</span><span class="mm-label">Nosotros</span></a>
+      <a href="/contacto/" class="is-active"><span class="mm-num">03</span><span class="mm-label">Contacto</span></a>
+    </nav>
+    <div class="mobile-menu-foot">
+      <span data-clock>--:--:--</span>
+      <a href="mailto:sebastian@batrescompany.tech">sebastian@batrescompany.tech</a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ================= PAGE HEADER ================= -->
+    <section class="page-head page-head--single">
+      <div class="kicker" data-reveal>§ 03 — CONTACTO</div>
+      <h1 data-reveal data-reveal-delay="80" style="max-width:900px; margin-bottom:20px;">Cuéntanos el <em class="rust">cuello de botella.</em></h1>
+      <p class="page-intro" data-reveal data-reveal-delay="160" style="max-width:520px;">Describe el proceso más repetitivo de tu operación. Respondemos en menos de 24 horas, con una evaluación honesta de si conviene automatizarlo.</p>
+    </section>
+
+    <!-- ================= FORM + DIRECT ================= -->
+    <section class="contact-grid">
+
+      <form class="contact-form" id="contact-form" data-reveal novalidate>
+        <input type="hidden" name="access_key" value="def84074-a543-432f-95df-ce9ef80e1b54">
+        <input type="hidden" name="subject" value="Nueva consulta — batrescompany.tech">
+        <input type="hidden" name="from_name" value="batrescompany.tech / Contacto">
+        <input type="checkbox" name="botcheck" class="honeypot" tabindex="-1" aria-hidden="true">
+
+        <div class="field">
+          <label for="bc-nombre">NOMBRE *</label>
+          <input id="bc-nombre" name="name" type="text" required autocomplete="name" placeholder="Tu nombre">
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="bc-email">EMAIL *</label>
+            <input id="bc-email" name="email" type="email" required autocomplete="email" placeholder="tu@empresa.com">
+          </div>
+          <div class="field">
+            <label for="bc-tel">TELÉFONO · OPCIONAL</label>
+            <input id="bc-tel" name="phone" type="tel" autocomplete="tel" placeholder="+52 00 0000 0000">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="bc-msg">MENSAJE *</label>
+          <textarea id="bc-msg" name="message" required rows="6" placeholder="Describe el proceso: qué se repite, quién lo hace, cuántas horas toma por semana."></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn--rust" id="submit-btn">ENVIAR →</button>
+          <span class="form-note form-note--ok" id="form-ok" hidden>✓ MENSAJE ENVIADO — RESPONDEMOS EN &lt; 24 H</span>
+          <span class="form-note form-note--err" id="form-err" hidden>ERROR AL ENVIAR · ESCRÍBENOS A <a href="mailto:sebastian@batrescompany.tech">sebastian@batrescompany.tech</a></span>
+        </div>
+      </form>
+
+      <div class="contact-direct" data-reveal data-reveal-delay="100">
+        <div>
+          <div class="block-label">CORREO DIRECTO</div>
+          <a href="mailto:sebastian@batrescompany.tech" class="contact-email">sebastian@batrescompany.tech</a>
+        </div>
+        <div>
+          <div class="block-label">LLAMADA DE DIAGNÓSTICO</div>
+          <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener" class="btn btn--ghost">AGENDAR 30 MIN →</a>
+          <div class="micro-note">CALENDLY · SE ABRE EN PESTAÑA NUEVA</div>
+        </div>
+        <div class="contact-spec">
+          RESPUESTA / <b>&lt; 24 H</b><br>
+          IDIOMAS / <b>ES · EN</b><br>
+          ZONA / <b>GMT-6</b>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <img src="/assets/batres-horizontal-light.svg" alt="Batres Company Limited">
+        <p>Automatización como infraestructura. Confiable, medible y tuya.</p>
+      </div>
+      <nav class="footer-col" aria-label="Pie de página">
+        <span class="col-label">ÍNDICE</span>
+        <a href="/">00 / INICIO</a>
+        <a href="/servicios/">01 / SERVICIOS</a>
+        <a href="/nosotros/">02 / NOSOTROS</a>
+        <a href="/contacto/">03 / CONTACTO</a>
+      </nav>
+      <div class="footer-col">
+        <span class="col-label">CONTACTO</span>
+        <a href="mailto:sebastian@batrescompany.tech" class="footer-email">sebastian@batrescompany.tech</a>
+        <a href="https://calendly.com/sebastian-batrescompany/30min" target="_blank" rel="noopener">CALENDLY / 30 MIN →</a>
+      </div>
+    </div>
+    <div class="footer-giant" aria-hidden="true" data-parallax="0.04" data-parallax-base="8%">BATRES</div>
+    <div class="footer-meta">
+      <span>© 2026 BATRES COMPANY LIMITED</span>
+      <span>DOC / BC-WEB · REV 02 / 2026 · STATUS / LIVE</span>
+      <span>AUTOMATIZA LO REPETITIVO · AMPLIFICA LO HUMANO</span>
+    </div>
+  </footer>
+
+</body>
+</html>
