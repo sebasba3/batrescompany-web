@@ -71,8 +71,10 @@
 
   function size() {
     var dpr = Math.min(window.devicePixelRatio || 1, 1.75);
-    canvas.width = Math.round(host.clientWidth * dpr);
-    canvas.height = Math.round(host.clientHeight * dpr);
+    /* never exceed the source frame width — upscaled buffers only blur */
+    var w = Math.min(Math.round(host.clientWidth * dpr), 1920);
+    canvas.width = w;
+    canvas.height = Math.round(w * host.clientHeight / host.clientWidth);
     draw(true);
   }
   window.addEventListener('resize', size);

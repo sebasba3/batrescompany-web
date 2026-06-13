@@ -144,7 +144,7 @@
   /* ---------- act morphing (dark <-> light) ---------- */
   var ACTS = {
     dark: { '--bg': '#0F0F0E', '--fg': '#F4F3F0', '--muted': '#8E8C87', '--hair': 'rgba(140,138,130,0.28)', '--card': '#161614' },
-    light: { '--bg': '#F5F5F2', '--fg': '#1A1A1A', '--muted': '#6B6B6B', '--hair': 'rgba(26,26,26,0.14)', '--card': '#FFFFFF' }
+    light: { '--bg': '#F5F5F5', '--fg': '#1A1A1A', '--muted': '#6B6B6B', '--hair': 'rgba(26,26,26,0.14)', '--card': '#FFFFFF' }
   };
   var currentAct = null;
   function applyAct(act, instant) {

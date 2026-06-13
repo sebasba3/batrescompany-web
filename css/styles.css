@@ -31,7 +31,7 @@
 
 /* static initial act for pages that open in the light act (prevents flash before JS) */
 body.act-light {
-  --bg: #F5F5F2; --fg: #1A1A1A; --muted: #6B6B6B;
+  --bg: #F5F5F5; --fg: #1A1A1A; --muted: #6B6B6B;
   --hair: rgba(26, 26, 26, 0.14); --card: #FFFFFF;
 }
 
@@ -59,6 +59,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; background: none; border: 0; cursor: pointer; color: inherit; }
 
 h1, h2, h3 { font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; }
+h1, .statement-line { font-weight: 900; } /* identity spec: display = Archivo 900 */
 em.rust { font-style: normal; color: var(--rust); }
 
 main { position: relative; z-index: 2; }
@@ -155,8 +156,11 @@ body.cursor-on.cursor-hover .cursor-ring { width: 56px; height: 56px; opacity: 0
   backdrop-filter: blur(12px);
   border-bottom-color: var(--hair);
 }
-.header-logo img { height: 22px; width: auto; transition: filter 0.5s; }
-body.on-dark .header-logo img { filter: invert(1) brightness(1.7); }
+/* two real variants — never invert the mark (it turns the rust seam blue) */
+.header-logo img { height: 22px; width: auto; }
+.header-logo .logo-light { display: none; }
+body.on-dark .header-logo .logo-ink { display: none; }
+body.on-dark .header-logo .logo-light { display: block; }
 
 .site-nav { display: flex; gap: 28px; }
 .site-nav a {
@@ -198,6 +202,12 @@ body.menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotat
   transition: clip-path 0.55s var(--ease);
   visibility: hidden;
 }
+.mobile-menu::before {
+  content: ''; position: absolute; inset: 0;
+  background: url('/assets/gen/hero-03.webp') center / cover no-repeat;
+  opacity: 0.2; pointer-events: none;
+}
+.mobile-menu nav, .mobile-menu-foot { position: relative; z-index: 1; }
 body.menu-open .mobile-menu { clip-path: inset(0 0 0% 0); visibility: visible; }
 .mobile-menu nav { display: flex; flex-direction: column; gap: 4px; }
 .mobile-menu nav a {
@@ -473,11 +483,14 @@ a.sec-note:hover { color: var(--rust); }
   background: #0C0C0B;
 }
 .stage-layer {
-  position: absolute; inset: -6%;
-  background-size: cover; background-position: center;
+  position: absolute; inset: 0;
   opacity: 0;
-  will-change: transform, opacity;
-  filter: saturate(0.8) brightness(0.5);
+  will-change: opacity;
+  filter: saturate(0.85) brightness(0.55);
+}
+.stage-layer video {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
 }
 .svc-stage::after {
   content: ''; position: absolute; inset: 0;
@@ -608,6 +621,16 @@ a.sec-note:hover { color: var(--rust); }
   display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: end;
   overflow: hidden;
 }
+.founder-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-size: cover; background-position: center;
+  opacity: 0.22;
+}
+.founder::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(12,12,11,0.5), transparent 60%);
+}
+.founder > div { position: relative; z-index: 2; }
 .founder h2 { font-size: clamp(40px, 6vw, 88px); }
 .founder-title { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.16em; color: var(--muted); margin-top: 16px; }
 .spec-list {

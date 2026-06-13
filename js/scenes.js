@@ -1,10 +1,11 @@
 /* ============================================================
-   BATRES — scenes.js (V3)
+   BATRES — scenes.js (V3.1)
    Servicios: ONE persistent fixed stage behind the chapters.
-   Four cinematic plates (Kie.ai) crossfade and drift slowly
-   (Ken Burns) as each chapter scrolls past; progress rail
-   highlights the active service. No WebGL — pure compositor-
-   friendly transforms over real photography-grade plates.
+   Four AI-generated video loops (the services, alive) crossfade
+   as each chapter scrolls past; only the active loop plays.
+   Progress rail highlights the active service.
+   Reduced motion / no GSAP: stage stays hidden (posters exist
+   in the chapter plates; the page reads fine without it).
    ============================================================ */
 
 (function () {
@@ -16,18 +17,34 @@
 
   var hasGsap = typeof window.gsap !== 'undefined' && typeof window.ScrollTrigger !== 'undefined';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var small = window.matchMedia('(max-width: 1020px)').matches;
+  /* on small screens the stage hides behind single-column content —
+     skip it entirely and save the video data */
+  if (reduced || !hasGsap || small) return;
 
-  /* atmospheric backdrops — distinct from the chapter plates */
-  var imgs = ['hero-03', 'hero-02', 'tex-02', 'nosotros-01'];
-  var layers = imgs.map(function (n) {
+  var names = ['vid-svc-01', 'vid-svc-02', 'vid-svc-03', 'vid-svc-04'];
+  var layers = names.map(function (n) {
     var d = document.createElement('div');
     d.className = 'stage-layer';
-    d.style.backgroundImage = "url('/assets/gen/" + n + ".webp')";
+    var v = document.createElement('video');
+    v.src = '/assets/gen/' + n + '.mp4';
+    v.poster = '/assets/gen/' + n + '-poster.webp';
+    v.muted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+    v.preload = 'metadata';
+    d.appendChild(v);
     stage.appendChild(d);
-    return d;
+    return { el: d, video: v };
   });
 
-  if (reduced || !hasGsap) return; /* stage stays hidden; chapters read fine on the act background */
+  function focus(idx) {
+    layers.forEach(function (l, j) {
+      var on = j === idx;
+      gsap.to(l.el, { opacity: on ? 1 : 0, duration: 0.9, ease: 'power2.inOut', overwrite: 'auto' });
+      if (on) { var p = l.video.play(); if (p && p.catch) p.catch(function () {}); }
+      else l.video.pause();
+    });
+  }
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -42,25 +59,18 @@
     onToggle: function (self) {
       gsap.to(stage, { opacity: self.isActive ? 1 : 0, duration: 0.6, overwrite: 'auto' });
       if (rail) gsap.to(rail, { opacity: self.isActive ? 1 : 0, duration: 0.5, overwrite: 'auto' });
+      if (!self.isActive) layers.forEach(function (l) { l.video.pause(); });
     }
   });
 
   chapters.forEach(function (ch, i) {
-    /* slow drift while its chapter crosses the viewport */
-    gsap.fromTo(layers[i], { scale: 1.14, yPercent: 3.5 }, {
-      scale: 1.02, yPercent: -3.5, ease: 'none',
-      scrollTrigger: { trigger: ch, start: 'top bottom', end: 'bottom top', scrub: true }
-    });
-    /* crossfade on chapter focus */
     ScrollTrigger.create({
       trigger: ch,
       start: 'top 55%',
       end: 'bottom 55%',
       onToggle: function (self) {
         if (!self.isActive) return;
-        layers.forEach(function (l, j) {
-          gsap.to(l, { opacity: j === i ? 1 : 0, duration: 0.9, ease: 'power2.inOut', overwrite: 'auto' });
-        });
+        focus(i);
         railSpans.forEach(function (s, j) { s.classList.toggle('is-on', j === i); });
       }
     });
