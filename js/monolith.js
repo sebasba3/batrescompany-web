@@ -46,6 +46,8 @@
   var frames = new Array(N);
   var canvas = document.createElement('canvas');
   var ctx = canvas.getContext('2d');
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
   host.appendChild(canvas);
 
   var cur = -1;
@@ -90,7 +92,8 @@
         inflight++;
         var im = new Image();
         im.onload = im.onerror = function () { inflight--; draw(true); pump(); };
-        im.src = '/assets/gen/heroseq/f-' + String(idx + 1).padStart(3, '0') + '.webp';
+        /* ?v= busts caches that still hold the old low-res frame set */
+        im.src = '/assets/gen/heroseq/f-' + String(idx + 1).padStart(3, '0') + '.webp?v=2';
         frames[idx] = im;
       })(order[ptr++]);
     }

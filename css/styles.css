@@ -630,7 +630,7 @@ a.sec-note:hover { color: var(--rust); }
   content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
   background: linear-gradient(to top, rgba(12,12,11,0.5), transparent 60%);
 }
-.founder > div { position: relative; z-index: 2; }
+.founder > div:not(.founder-bg) { position: relative; z-index: 2; }
 .founder h2 { font-size: clamp(40px, 6vw, 88px); }
 .founder-title { font-family: var(--font-m); font-size: 11px; letter-spacing: 0.16em; color: var(--muted); margin-top: 16px; }
 .spec-list {
